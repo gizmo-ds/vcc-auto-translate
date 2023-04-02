@@ -25,9 +25,12 @@ jobs:
           bun-version: latest
 
       - name: Build
+        env:
+          GOOS: windows
+          CGO_ENABLED: 0
         run: |
           bun x esbuild src/index.ts --bundle --format=iife --platform=browser --outfile=vcc-auto-translate.js
-          GOOS=windows CGO_ENABLED=0 go build -o build/ ./...
+          go build -trimpath -ldflags "-s -w" -o build/ ./...
           cp vcc-auto-translate.js build/
 
       - name: Release
