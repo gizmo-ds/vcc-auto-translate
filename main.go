@@ -1,4 +1,4 @@
-//go:generate npx esbuild src/index.ts --bundle --format=iife --platform=browser --outfile=vcc-auto-translate.js
+//go:generate npx -y esbuild src/index.ts --bundle --format=iife --platform=browser --outfile=vcc-auto-translate.js
 package main
 
 import (
