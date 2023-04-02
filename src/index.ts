@@ -18,64 +18,23 @@ async function start() {
 }
 
 function vcc_auto_translate(node: HTMLElement, tr: Record<string, string>) {
-  node.querySelectorAll('.fui-Button').forEach((e) => {
-    e.childNodes.forEach((child) => {
-      const text = child.textContent;
-      if (text && tr[text]) {
-        child.textContent = tr[text];
-      }
+  const selectors = [
+    '.fui-Button',
+    '.fui-Title1, .fui-Title3, .fui-Subtitle1',
+    '.fui-MenuList .fui-MenuItem, .fui-Option, .fui-OptionGroup__label',
+    '.fui-Label, .fui-Caption1, .fui-Body1',
+    '.fui-Tab>.fui-Tab__content, .fui-DataGridHeaderCell__button, .fui-TableHeaderCell__button',
+  ];
+  selectors.forEach((selector) => {
+    node.querySelectorAll(selector).forEach((e) => {
+      e.childNodes.forEach((child) => {
+        const text = child.textContent;
+        if (text && tr[text]) {
+          child.textContent = tr[text];
+          //@ts-ignore
+          if (text === 'Projects') e.style.whiteSpace = 'nowrap';
+        }
+      });
     });
   });
-
-  node
-    .querySelectorAll('.fui-Title1, .fui-Title3, .fui-Subtitle1')
-    .forEach((e) => {
-      e.childNodes.forEach((child) => {
-        const text = child.textContent;
-        if (text && tr[text]) {
-          child.textContent = tr[text];
-          if (text === 'Projects') {
-            //@ts-ignore
-            e.style.whiteSpace = 'nowrap';
-          }
-        }
-      });
-    });
-
-  node
-    .querySelectorAll(
-      '.fui-MenuList .fui-MenuItem, .fui-Option, .fui-OptionGroup__label'
-    )
-    .forEach((e) => {
-      e.childNodes.forEach((child) => {
-        const text = child.textContent;
-        if (text && tr[text]) {
-          child.textContent = tr[text];
-        }
-      });
-    });
-
-  node
-    .querySelectorAll('.fui-Label, .fui-Caption1, .fui-Body1')
-    .forEach((e) => {
-      e.childNodes.forEach((child) => {
-        const text = child.textContent;
-        if (text && tr[text]) {
-          child.textContent = tr[text];
-        }
-      });
-    });
-
-  node
-    .querySelectorAll(
-      '.fui-Tab>.fui-Tab__content, .fui-DataGridHeaderCell__button, .fui-TableHeaderCell__button'
-    )
-    .forEach((e) => {
-      e.childNodes.forEach((child) => {
-        const text = child.textContent;
-        if (text && tr[text]) {
-          child.textContent = tr[text];
-        }
-      });
-    });
 }
