@@ -1,10 +1,12 @@
-const supportedLanguages = ['zh-CN'];
+const supportedLanguages = ['zh-CN', 'zh-TW'];
 
-if (supportedLanguages.includes(navigator.language)) start();
+const language = navigator.language;
 
-async function start() {
-  const tr = (await fetch(`/localization/${navigator.language}.json`).then(
-    (resp) => resp.json()
+if (supportedLanguages.includes(language)) start(language);
+
+async function start(language) {
+  const tr = (await fetch(`/localization/${language}.json`).then((resp) =>
+    resp.json()
   )) as Record<string, string>;
   let observer = new MutationObserver(function (mutations) {
     mutations.forEach(function (mutation) {
