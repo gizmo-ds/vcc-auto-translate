@@ -30,6 +30,7 @@
   "Add Existing Project": "新增已有專案",
   "Official": "官方",
   "Curated": "精選",
+  "Community": "社區",
   "Local User Packages": "本地用戶軟體包",
   "Built-In Repositories": "內置儲存庫",
   "User Repositories": "用戶儲存庫",
@@ -62,5 +63,16 @@
   "Name": "名稱",
   "Installed Version": "已安裝的版本",
   "Latest Version": "最新版本",
-  "You are running the latest version of the Creator Companion": "您正在運行 Creator Companion 的最新版本"
+  "You are running the latest version of the Creator Companion": "您正在運行 Creator Companion 的最新版本",
+  "Installed Repositories": "已安裝的資料庫",
+  "Community Repositories": "社區資料庫",
+  "The Creator Companion includes VRChat's official and curated repositories by default. You can add your own community repositories by clicking 'Add Repository'.": "Creator Companion預設包括VRChat的官方和精選資料庫。您可以點擊“添加資料庫”來添加您自己的社區資料庫。",
+  "Author": "作者",
+  "Add Repository": "添加資料庫",
+  "Add": "添加",
+  "Cancel": "取消",
+  "Request Headers": "請求標頭",
+  "Link to the repository JSON file. E.g. https://vrchat.github.io/myRepo/index.json": "連接到資料庫JSON文件。例如https://vrchat.github.io/myRepo/index.json",
+  "Search Projects...": "搜索項目...",
+  "Search Packages...": "搜索軟件包..."
 }

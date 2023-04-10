@@ -30,6 +30,7 @@
   "Add Existing Project": "添加已有项目",
   "Official": "官方",
   "Curated": "精选",
+  "Community": "社区",
   "Local User Packages": "本地用户软件包",
   "Built-In Repositories": "内置仓库",
   "User Repositories": "用户仓库",
@@ -62,5 +63,16 @@
   "Name": "名称",
   "Installed Version": "已安装的版本",
   "Latest Version": "最新版本",
-  "You are running the latest version of the Creator Companion": "您正在运行 Creator Companion 的最新版本"
+  "You are running the latest version of the Creator Companion": "您正在运行 Creator Companion 的最新版本",
+  "Installed Repositories": "已安装的仓库",
+  "Community Repositories": "社区仓库",
+  "The Creator Companion includes VRChat's official and curated repositories by default. You can add your own community repositories by clicking 'Add Repository'.": "Creator Companion默认包括VRChat的官方和精选仓库。您可以通过单击“添加仓库”来添加您自己的社区仓库。",
+  "Author": "作者",
+  "Add Repository": "添加仓库",
+  "Add": "添加",
+  "Cancel": "取消",
+  "Request Headers": "请求头",
+  "Link to the repository JSON file. E.g. https://vrchat.github.io/myRepo/index.json": "链接到仓库JSON文件。例如 https://vrchat.github.io/myRepo/index.json",
+  "Search Projects...": "搜索项目...",
+  "Search Packages...": "搜索软件包..."
 }

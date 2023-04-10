@@ -26,6 +26,7 @@ function vcc_auto_translate(node: HTMLElement, tr: Record<string, string>) {
     '.fui-MenuList .fui-MenuItem, .fui-Option, .fui-OptionGroup__label',
     '.fui-Label, .fui-Caption1, .fui-Body1',
     '.fui-Tab>.fui-Tab__content, .fui-DataGridHeaderCell__button, .fui-TableHeaderCell__button',
+    '.fui-TableCell',
   ];
   selectors.forEach((selector) => {
     node.querySelectorAll(selector).forEach((e) => {
@@ -33,10 +34,14 @@ function vcc_auto_translate(node: HTMLElement, tr: Record<string, string>) {
         const text = child.textContent;
         if (text && tr[text]) {
           child.textContent = tr[text];
-          //@ts-ignore
-          if (text === 'Projects') e.style.whiteSpace = 'nowrap';
+          if (text === 'Projects')
+            (e as HTMLElement).style.whiteSpace = 'nowrap';
         }
       });
     });
+  });
+  node.querySelectorAll('[placeholder]').forEach((e) => {
+    const text = e.getAttribute('placeholder');
+    if (text && tr[text]) e.setAttribute('placeholder', tr[text]);
   });
 }
