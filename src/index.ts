@@ -4,7 +4,7 @@ const language = navigator.language;
 
 if (supportedLanguages.includes(language)) start(language);
 
-async function start(language) {
+async function start(language: string) {
   const tr = (await fetch(`/localization/${language}.json`).then((resp) =>
     resp.json()
   )) as Record<string, string>;
