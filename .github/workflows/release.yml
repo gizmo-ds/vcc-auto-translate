@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   release:
-    name: Release new version
+    name: Build and release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -21,7 +21,9 @@ jobs:
           go-version: 'stable'
 
       - name: Install esbuild
-        run: curl -fsSL https://esbuild.github.io/dl/latest | sh
+        run: |
+          curl -fsSL https://esbuild.github.io/dl/latest | sh
+          mv esbuild $HOME/go/bin
 
       - name: Build
         run: make
