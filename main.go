@@ -12,7 +12,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-//go:embed localization/*
+//go:embed localization/*.json
 var localization embed.FS
 
 //go:embed vcc-auto-translate.js
