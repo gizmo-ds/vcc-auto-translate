@@ -22,17 +22,24 @@ async function start(language: string) {
 function vcc_auto_translate(node: HTMLElement, tr: Record<string, string>) {
   const selectors = [
     '.fui-Button',
-    '.fui-Title1, .fui-Title3, .fui-Subtitle1',
+    '.fui-Title1, .fui-Title3, .fui-Subtitle1, .fui-Subtitle2',
     '.fui-MenuList .fui-MenuItem, .fui-Option, .fui-OptionGroup__label',
     '.fui-Label, .fui-Caption1, .fui-Body1',
     '.fui-Tab>.fui-Tab__content, .fui-DataGridHeaderCell__button, .fui-TableHeaderCell__button',
     '.fui-TableCell',
+    '.list-disc>li',
   ];
   selectors.forEach((selector) => {
     node.querySelectorAll(selector).forEach((e) => {
       e.childNodes.forEach((child) => {
         const text = child.textContent;
         if (text && tr[text]) {
+          if (
+            text === 'New Project' &&
+            (child as HTMLElement).classList &&
+            !(child as HTMLElement).classList.contains('fui-Title1')
+          )
+            return;
           child.textContent = tr[text];
           if (text === 'Projects')
             (e as HTMLElement).style.whiteSpace = 'nowrap';
