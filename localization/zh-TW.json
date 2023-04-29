@@ -115,5 +115,9 @@
   "Project Location": "項目位置",
   "Final project location:": "最終項目位置:",
   "Create Project": "創建項目",
-  "Please do not close the VCC Application": "請不要關閉VCC應用程序"
+  "Please do not close the VCC Application": "請不要關閉VCC應用程序",
+  "Path to a Unity Editor is not set, you will be unable to open projects.": "未設置Unity編輯器的路徑，您將無法打開項目。",
+  "Fix Now": "立即修復",
+  "No Unity Editors found, you need a Unity Editor to be able to launch projects via the VCC": "找不到Unity編輯器，您需要Unity編輯器才能通過VCC啟動項目",
+  "Install Now": "立即安裝"
 }

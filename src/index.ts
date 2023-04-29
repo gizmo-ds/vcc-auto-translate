@@ -28,6 +28,7 @@ function vcc_auto_translate(node: HTMLElement, tr: Record<string, string>) {
     '.fui-Tab>.fui-Tab__content, .fui-DataGridHeaderCell__button, .fui-TableHeaderCell__button',
     '.fui-TableCell',
     '.list-disc>li',
+    '.fui-Alert',
   ];
   selectors.forEach((selector) => {
     node.querySelectorAll(selector).forEach((e) => {
