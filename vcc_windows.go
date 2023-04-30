@@ -18,3 +18,17 @@ func findVCCInstallPath() (string, error) {
 	}
 	return s, nil
 }
+
+func getUserDefaultLocale() (string, error) {
+	k, err := registry.OpenKey(registry.CURRENT_USER, "Control Panel\\International", registry.QUERY_VALUE)
+	if err != nil {
+		return "", err
+	}
+	defer k.Close()
+
+	s, _, err := k.GetStringValue("LocaleName")
+	if err != nil {
+		return "", err
+	}
+	return s, nil
+}

@@ -18,27 +18,46 @@ var localization embed.FS
 //go:embed vcc-auto-translate.js
 var script string
 
+var userLocale = "en-US"
+var locales = [][]string{
+	{
+		"VCC Auto Translate installer\n\n" +
+			"This installer will add the VCC Auto Translate script to your VCC installation.\n" +
+			"Source code: https://github.com/gizmo-ds/vcc-auto-translate\n\n", "VCC Auto Translate 安装程序\n\n" +
+			"此安装程序将向您的 VCC 安装添加 VCC Auto Translate 脚本。\n" +
+			"源代码：https://github.com/gizmo-ds/vcc-auto-translate\n\n",
+	},
+	{"Error:", "错误:"},
+	{"VCC install path:", "VCC 安装路径:"},
+	{"Installed successfully", "安装成功"},
+	{"Press enter to exit...", "按回车键退出..."},
+}
+
+func init() {
+	if locale, err := getUserDefaultLocale(); err == nil {
+		userLocale = locale
+	}
+}
+
 func main() {
-	fmt.Print("VCC Auto Translate installer\n\n" +
-		"This installer will add the VCC Auto Translate script to your VCC installation.\n" +
-		"Source code: https://github.com/gizmo-ds/vcc-auto-translate\n\n")
+	fmt.Print(t(0))
 
 	var vccInstallPath string
 	_, err := os.Stat("./CreatorCompanion.exe")
 	if err != nil {
 		vccInstallPath, err = findVCCInstallPath()
 		if err != nil {
-			exit(1, "Error:", err)
+			exit(1, t(1), err)
 		}
 	}
 
-	fmt.Println("VCC install path:", vccInstallPath)
+	fmt.Println(t(2), vccInstallPath)
 
 	err = installer(vccInstallPath)
 	if err != nil {
-		exit(1, "Error:", err)
+		exit(1, t(1), err)
 	}
-	exit(0, "Installed successfully")
+	exit(0, t(3))
 }
 
 func installer(vccPath string) error {
@@ -91,7 +110,15 @@ func installer(vccPath string) error {
 
 func exit(code int, args ...any) {
 	fmt.Println(args...)
-	fmt.Println("Press enter to exit...")
+	fmt.Println(t(4))
 	_, _ = fmt.Scanln()
 	os.Exit(code)
+}
+
+func t(i int) string {
+	switch {
+	case strings.HasPrefix(userLocale, "zh"):
+		return locales[i][1]
+	}
+	return locales[i][0]
 }
