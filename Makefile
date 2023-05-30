@@ -9,7 +9,7 @@ build-installer: build-script
 	cp vcc-auto-translate.js build/
 
 sha256sum:
-	rm build/*.sha256; for file in build/*; do sha256sum $$file > $$file.sha256; done
+	rm -f build/*.sha256; for file in build/*; do sha256sum $$file > $$file.sha256; done
 
 compress: build-installer
 	for file in build/*.exe; do upx $$file; done
