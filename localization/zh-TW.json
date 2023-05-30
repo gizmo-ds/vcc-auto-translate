@@ -119,5 +119,9 @@
   "Path to a Unity Editor is not set, you will be unable to open projects.": "未設置Unity編輯器的路徑，您將無法打開項目。",
   "Fix Now": "立即修復",
   "No Unity Editors found, you need a Unity Editor to be able to launch projects via the VCC": "找不到Unity編輯器，您需要Unity編輯器才能通過VCC啟動項目",
-  "Install Now": "立即安裝"
+  "Install Now": "立即安裝",
+  "Community Repo Analytics": "社區儲存庫分析",
+  "When you add a Community Repo, this app will send the url of that repo to our analytics service to help us understand how people are using community repos, which are the most popular, etc. It also sends a true/false value for whether a custom header is provided, but it does not send any of the information from the header.": "當您添加一個社區儲存庫時，此應用程式將會將該儲存庫的 URL 發送到我們的分析服務，以幫助我們了解人們如何使用社區儲存庫、哪些是最受歡迎的等等。它還會發送一個真/假值，以表示是否提供了自訂標頭，但不會發送任何來自標頭的資訊。",
+  "You can turn this off if you don't want to share the information.": "如果您不想分享這些資訊，您可以關閉此功能。",
+  "Send Community Repo Analytics": "發送社區儲存庫分析"
 }
