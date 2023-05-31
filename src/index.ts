@@ -34,9 +34,6 @@ function vcc_auto_translate(node: HTMLElement, tr: Record<string, string>) {
     node.querySelectorAll(selector).forEach((e) => {
       e.childNodes.forEach((child) => {
         const text = child.textContent
-        if (text) {
-          text_record[text] = ''
-        }
         if (text && tr[text]) {
           if (
             text === 'New Project' &&
