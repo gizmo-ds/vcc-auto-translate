@@ -1,22 +1,22 @@
-const supportedLanguages = ['zh-CN', 'zh-TW'];
+const supportedLanguages = ['zh-CN', 'zh-TW']
 
-const language = navigator.language;
+const language = navigator.language
 
-if (supportedLanguages.includes(language)) start(language);
+if (supportedLanguages.includes(language)) start(language)
 
 async function start(language: string) {
   const tr = (await fetch(`/localization/${language}.json`).then((resp) =>
     resp.json()
-  )) as Record<string, string>;
+  )) as Record<string, string>
   let observer = new MutationObserver(function (mutations) {
     mutations.forEach(function (mutation) {
-      vcc_auto_translate(mutation.target as HTMLElement, tr);
-    });
-  });
+      vcc_auto_translate(mutation.target as HTMLElement, tr)
+    })
+  })
   observer.observe(document.querySelector('#root')!, {
     childList: true,
     subtree: true,
-  });
+  })
 }
 
 function vcc_auto_translate(node: HTMLElement, tr: Record<string, string>) {
@@ -29,27 +29,30 @@ function vcc_auto_translate(node: HTMLElement, tr: Record<string, string>) {
     '.fui-TableCell',
     '.list-disc>li',
     '.fui-Alert',
-  ];
+  ]
   selectors.forEach((selector) => {
     node.querySelectorAll(selector).forEach((e) => {
       e.childNodes.forEach((child) => {
-        const text = child.textContent;
+        const text = child.textContent
+        if (text) {
+          text_record[text] = ''
+        }
         if (text && tr[text]) {
           if (
             text === 'New Project' &&
             (child as HTMLElement).classList &&
             !(child as HTMLElement).classList.contains('fui-Title1')
           )
-            return;
-          child.textContent = tr[text];
+            return
+          child.textContent = tr[text]
           if (text === 'Projects')
-            (e as HTMLElement).style.whiteSpace = 'nowrap';
+            (e as HTMLElement).style.whiteSpace = 'nowrap'
         }
-      });
-    });
-  });
+      })
+    })
+  })
   node.querySelectorAll('[placeholder]').forEach((e) => {
-    const text = e.getAttribute('placeholder');
-    if (text && tr[text]) e.setAttribute('placeholder', tr[text]);
-  });
+    const text = e.getAttribute('placeholder')
+    if (text && tr[text]) e.setAttribute('placeholder', tr[text])
+  })
 }
