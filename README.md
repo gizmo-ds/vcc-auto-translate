@@ -28,7 +28,7 @@ VCC(VRChat Creator Companion) 的翻译脚本, 用于自动翻译 VCC 的界面.
 2. 编译脚本 `npx esbuild src/index.ts --bundle --format=iife --platform=browser --outfile=vcc-auto-translate.js`
 3. 将 `vcc-auto-translate.js` 复制到 VCC 的安装目录下的 `WebApp\Dist` 文件夹中
 4. 将 `localization` 文件夹复制到 VCC 的安装目录下的 `WebApp\Dist` 文件夹中
-5. 再 VCC 安装目录下的 `WebApp\Dist\index.html` 文件的 `<head>`
+5. 在 VCC 安装目录下的 `WebApp\Dist\index.html` 文件的 `<head>`
    标签中添加 `<script src="/vcc-auto-translate.js"></script>`
 
 ## 类似的项目
