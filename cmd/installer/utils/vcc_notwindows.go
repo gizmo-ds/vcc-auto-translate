@@ -1,13 +1,13 @@
 //go:build !windows
 
-package main
+package utils
 
 import "errors"
 
-func findVCCInstallPath() (string, error) {
+func FindVCCInstallPath() (string, error) {
 	return "", errors.New("not implemented")
 }
 
-func getUserDefaultLocale() (string, error) {
+func GetUserDefaultLocale() (string, error) {
 	return "", errors.New("not implemented")
 }

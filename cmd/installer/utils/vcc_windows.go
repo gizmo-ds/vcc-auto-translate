@@ -1,10 +1,10 @@
 //go:build windows
 
-package main
+package utils
 
 import "golang.org/x/sys/windows/registry"
 
-func findVCCInstallPath() (string, error) {
+func FindVCCInstallPath() (string, error) {
 	// HKEY_CURRENT_USER\Software\VCC
 	k, err := registry.OpenKey(registry.CURRENT_USER, "Software\\VCC", registry.QUERY_VALUE)
 	if err != nil {
@@ -19,7 +19,7 @@ func findVCCInstallPath() (string, error) {
 	return s, nil
 }
 
-func getUserDefaultLocale() (string, error) {
+func GetUserDefaultLocale() (string, error) {
 	k, err := registry.OpenKey(registry.CURRENT_USER, "Control Panel\\International", registry.QUERY_VALUE)
 	if err != nil {
 		return "", err
