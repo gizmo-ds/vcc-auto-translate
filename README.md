@@ -22,6 +22,8 @@ VCC(VRChat Creator Companion) 的翻译脚本, 用于自动翻译 VCC 的界面.
 你可以通过 [Release](https://github.com/gizmo-ds/vcc-auto-translate/releases/latest) 下载预编译的安装工具并运行,
 该工具会自动安装翻译脚本.
 
+> 如果出现错误, 请尝试将安装工具移动到VCC安装目录下运行. (与`CreatorCompanion.exe`同目录)
+
 ## 手动编译并安装
 
 1. 安装 [Node.js](https://nodejs.org/en/download/)
