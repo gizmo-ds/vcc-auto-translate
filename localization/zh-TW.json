@@ -124,5 +124,8 @@
   "When you add a Community Repo, this app will send the url of that repo to our analytics service to help us understand how people are using community repos, which are the most popular, etc. It also sends a true/false value for whether a custom header is provided, but it does not send any of the information from the header.": "當您添加一個社區儲存庫時，此應用程式將會將該儲存庫的 URL 發送到我們的分析服務，以幫助我們了解人們如何使用社區儲存庫、哪些是最受歡迎的等等。它還會發送一個真/假值，以表示是否提供了自訂標頭，但不會發送任何來自標頭的資訊。",
   "You can turn this off if you don't want to share the information.": "如果您不想分享這些資訊，您可以關閉此功能。",
   "Send Community Repo Analytics": "發送社區儲存庫分析",
-  "Bring To Front": "前置"
+  "Bring To Front": "前置",
+  "Creator Companion is ready to Update!": "Creator Companion 準備好了更新！",
+  "Update Now": "現在更新",
+  "See Whats New": "看看更新了什麽"
 }
