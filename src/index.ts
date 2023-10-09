@@ -29,6 +29,16 @@ function vcc_auto_translate(node: HTMLElement, tr: Record<string, string>) {
     '.fui-TableCell',
     '.list-disc>li',
     '.fui-Alert',
+    '.fui-DataGridHeaderCell__button',
+    '.fui-DialogBody,p',
+    '.fui-Checkbox > .fui-Label',
+    '.fui-DialogTitle',
+    '.fui-DialogContent',
+    '.list-disc>li',
+    '.fui-Caption1',
+    '.fui-CardHeader>.fui-CardHeader__header>.fui-Body1',
+    '.fui-CardFooter>.fui-Caption1',
+    '.fui-Tooltip__content',
   ]
   selectors.forEach((selector) => {
     node.querySelectorAll(selector).forEach((e) => {
