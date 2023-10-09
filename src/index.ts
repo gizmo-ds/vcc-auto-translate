@@ -13,7 +13,7 @@ async function start(language: string) {
       vcc_auto_translate(mutation.target as HTMLElement, tr)
     })
   })
-  observer.observe(document.querySelector('#root')!, {
+  observer.observe(document.querySelector('body')!, {
     childList: true,
     subtree: true,
   })
