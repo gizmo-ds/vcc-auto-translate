@@ -21,7 +21,7 @@ async function start(language: string) {
 
 function vcc_auto_translate(node: HTMLElement, tr: Record<string, string>) {
   const selectors = [
-    '.fui-Button',
+    '.fui-Button, button',
     '.fui-Title1, .fui-Title3, .fui-Subtitle1, .fui-Subtitle2',
     '.fui-MenuList .fui-MenuItem, .fui-Option, .fui-OptionGroup__label',
     '.fui-Label, .fui-Caption1, .fui-Body1',
