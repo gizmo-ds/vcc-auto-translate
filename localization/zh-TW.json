@@ -32,6 +32,7 @@
   "Official": "官方",
   "Curated": "精選",
   "Community": "社區",
+  "Local": "本地",
   "Local User Packages": "本地用戶軟體包",
   "Built-In Repositories": "內置儲存庫",
   "User Repositories": "用戶儲存庫",
@@ -146,5 +147,11 @@
   "World Project": "世界(地圖)專案",
   "Avatar Project": "頭像(模型)專案",
   "VRChat World Project with UdonSharp": "使用UdonSharp的世界(地圖)專案",
-  "Add a new Package": "添加一個新的軟體包"
+  "Add a new Package": "添加一個新的軟體包",
+  "Open Logs": "打開日誌",
+  "Toggle auto scroll": "切換自動滾動",
+  "Toggle text wrapping": "切換文字換行",
+  "Copy Logs": "複製日誌",
+  "Updates available! Use the button on the sidebar to update": "有可用的更新！使用側邊欄上的按鈕進行更新",
+  "Not Installed": "未安裝"
 }
