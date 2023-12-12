@@ -1,8 +1,13 @@
-const supportedLanguages = ['zh-CN', 'zh-TW']
+const supportedLanguages = [
+  ['zh-CN', 'zh-hans'],
+  ['zh-TW', 'zh-hant'],
+]
 
-const language = navigator.language
+const language =
+  supportedLanguages.find((v) => v[0] === navigator.language)?.[1] ??
+  navigator.language
 
-if (supportedLanguages.includes(language)) start(language)
+start(language)
 
 async function start(language: string) {
   const tr = (await fetch(`/localization/${language}.json`).then((resp) =>

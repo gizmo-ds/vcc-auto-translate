@@ -8,8 +8,8 @@ VCC(VRChat Creator Companion) 的翻译脚本, 用于自动翻译 VCC 的界面.
 
 当前支持的语言:
 
-- [简体中文](./localization/zh-CN.json)
-- [繁体中文](./localization/zh-TW.json)
+- [简体中文](./localization/zh-hans.json)
+- [繁体中文](./localization/zh-hant.json)
 
 ## Screenshots
 
