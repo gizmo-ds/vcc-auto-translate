@@ -11,6 +11,9 @@ VCC(VRChat Creator Companion) 的翻译脚本, 用于自动翻译 VCC 的界面.
 - [简体中文](./localization/zh-hans.json)
 - [繁体中文](./localization/zh-hant.json)
 
+> Todo  
+> 因爲進行了較大的更新, 繁体中文中文的翻譯還需要一點時間
+
 ## Screenshots
 
 ![Screenshot 1](images/screenshot_1.png)
@@ -26,12 +29,25 @@ VCC(VRChat Creator Companion) 的翻译脚本, 用于自动翻译 VCC 的界面.
 
 ## 手动编译并安装
 
-1. 安装 [Node.js](https://nodejs.org/en/download/)
-2. 编译脚本 `npx esbuild src/index.ts --bundle --format=iife --platform=browser --outfile=vcc-auto-translate.js`
-3. 将 `vcc-auto-translate.js` 复制到 VCC 的安装目录下的 `WebApp\Dist` 文件夹中
-4. 将 `localization` 文件夹复制到 VCC 的安装目录下的 `WebApp\Dist` 文件夹中
-5. 在 VCC 安装目录下的 `WebApp\Dist\index.html` 文件的 `<head>`
-   标签中添加 `<script src="/vcc-auto-translate.js"></script>`
+环境要求:
+
+- [Go 1.20+](https://go.dev/doc/install)
+- [git](https://git-scm.com/)
+- [esbuild](https://esbuild.github.io/getting-started/#install-esbuild)
+- [make](https://duckduckgo.com/?q=make+install) (可选)
+- [upx](https://github.com/upx/upx/releases/latest)(可选)
+
+如果你有安装`make`和`upx`, 你只需要执行`make`即可完成编译, 你可以在`build`目录找到自动安装工具.
+
+如果你有安装`make`, 但没安装`upx`, 你可以执行`make build-script build-installer`进行编译.
+
+如果你不使用`make`, 你可以依次执行下面的命令进行编译.
+
+```shell
+$ esbuild vcc-auto-translate.ts --bundle --minify --format=iife --platform=browser --outfile=cmd/installer/vcc-auto-translate.js
+$ cp -r localization/*.json cmd/installer/localization
+$ go build -trimpath -ldflags "-s -w" -o build/vcc-auto-translate-installer.exe cmd/installer/main.go
+```
 
 ## 类似的项目
 
