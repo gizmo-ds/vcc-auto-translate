@@ -12,7 +12,8 @@ VCC(VRChat Creator Companion) 的翻译脚本, 用于自动翻译 VCC 的界面.
 - [繁体中文](./localization/zh-hant.json)
 
 > Todo  
-> 因爲進行了較大的更新, 繁体中文中文的翻譯還需要一點時間
+> [v1.3.0](https://github.com/gizmo-ds/vcc-auto-translate/releases/tag/v1.3.0-beta) 以后的版本不再对 VCC v2.2.2 以前的版本进行适配, 如有需要使用旧版本, 请下载`v1.3.0`之前的版本.  
+> 因爲進行了較大的更新, 繁体中文的翻譯還需要一點時間.
 
 ## Screenshots
 

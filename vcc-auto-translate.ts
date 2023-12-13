@@ -9,9 +9,12 @@ const supported_element_name = [
   'SplitButton',
   'ToggleButton',
   'DataGridHeaderCell',
+  'TableHeaderCell',
   'MenuItem',
   'Body1',
   'Title1',
+  'Title3',
+  'Subtitle2',
   'Input',
   'DialogTitle',
   'DialogContent',
@@ -24,6 +27,10 @@ const supported_element_name = [
   'Dropdown',
   'Link',
   'ToastBody',
+  'Checkbox',
+  'Alert',
+  'TableCellLayout',
+  'OptionGroup',
 
   'li',
   'span',
@@ -32,6 +39,7 @@ const supported_element_name = [
   'b',
   'input',
   'p',
+  'code',
 ]
 const localization = supported_languages[navigator.language]
 const localization_matcher = localization
@@ -77,7 +85,7 @@ globalThis['vcc_auto_translate'] = (e: any, t: any) => {
   }
 
   var children_translated = false
-  for (const k of ['children', 'placeholder', 'title']) {
+  for (const k of ['children', 'placeholder', 'title', 'label']) {
     if (!t[k]) continue
     if (typeof t[k] === 'string') {
       const r = tr(t[k])
