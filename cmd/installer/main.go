@@ -2,11 +2,11 @@ package main
 
 import (
 	"bytes"
-	"embed"
+	_ "embed"
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"vcc-auto-translate-installer/cmd/installer/utils"
 
@@ -15,20 +15,19 @@ import (
 )
 
 var (
-	//go:embed localization/*.json
-	localization embed.FS
 	//go:embed vcc-auto-translate.js
 	script string
 
 	t = utils.T
 )
 
+const (
+	jsPrefix = "/* vcc-auto-translate begin */\n"
+	jsSuffix = "/* vcc-auto-translate end */\n"
+)
+
 type stackTracer interface {
 	StackTrace() errors.StackTrace
-}
-
-func init() {
-	log.SetFlags(log.Lshortfile)
 }
 
 func main() {
@@ -39,7 +38,7 @@ func main() {
 	if err != nil {
 		vccInstallPath, err = utils.FindVCCInstallPath()
 		if err != nil {
-			log.Println(t("error", err.Error()))
+			fmt.Println(t("error", err.Error()))
 			pause()
 			os.Exit(2)
 		}
@@ -73,41 +72,78 @@ func installer(vccPath string) error {
 		return errors.WithStack(err)
 	}
 
-	if !strings.Contains(string(htmlFile), "vcc-auto-translate.js") {
-		doc, err := goquery.NewDocumentFromReader(bytes.NewReader(htmlFile))
-		if err != nil {
-			return errors.WithStack(err)
-		}
-
-		doc.Find("head").
-			PrependHtml(`<script src="/vcc-auto-translate.js" />`)
-
-		htmlString, err := doc.Html()
-		if err != nil {
-			return errors.WithStack(err)
-		}
-
-		if err = os.WriteFile(indexFile, []byte(htmlString), 0644); err != nil {
-			return errors.WithStack(err)
-		}
-	}
-
-	if err = os.WriteFile(filepath.Join(webappDist, "vcc-auto-translate.js"), []byte(script), 0644); err != nil {
+	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(htmlFile))
+	if err != nil {
 		return errors.WithStack(err)
 	}
-	_ = os.MkdirAll(filepath.Join(webappDist, "localization"), 0755)
-	de, _ := localization.ReadDir("localization")
-	for _, f := range de {
-		if f.IsDir() {
+
+	jsSelection := doc.Find("head>script[type='module']")
+	if jsSelection.Length() == 0 {
+		return errors.New(t("script-notfound"))
+	}
+	jsSelection = jsSelection.First()
+	jsFilename, ok := jsSelection.Attr("src")
+	if !ok {
+		return errors.New(t("script-notfound"))
+	}
+	if strings.HasPrefix(jsFilename, "/") {
+		jsFilename = jsFilename[1:]
+	}
+	jsFilename = filepath.Join(filepath.Dir(indexFile), jsFilename)
+
+	jsData, err := os.ReadFile(jsFilename)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+	js := string(jsData)
+	if strings.Contains(js, jsPrefix) && strings.Contains(js, jsSuffix) {
+		js = js[strings.Index(js, jsSuffix)+len(jsSuffix):]
+	}
+
+	// TODO: 搜索字符串的方式在VCC的代码结构出现改动时可能会失效, 以后可以尝试修改为通过AST处理
+	var jsxFunctionName string
+	for _, expr := range []string{`[0-9A-Za-z]+\.jsx=([0-9A-Za-z]+)`, `[0-9A-Za-z]+\.jsxs=([0-9A-Za-z]+)`} {
+		r, err := regexp.Compile(expr)
+		if err != nil {
 			continue
 		}
-		data, err := localization.ReadFile("localization/" + f.Name())
+		arr := r.FindAllStringSubmatch(js, -1)
+		if len(arr) > 0 && len(arr[0]) >= 2 {
+			jsxFunctionName = arr[0][1]
+			break
+		}
+	}
+	if jsxFunctionName == "" {
+		return errors.New(t("jsx-function-notfound"))
+	}
+	jsxFnStr := fmt.Sprintf(`function %s\(([a-z|A-Z|,]{5})\){`, jsxFunctionName)
+	r, err := regexp.Compile(jsxFnStr)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+	arr := r.FindStringSubmatchIndex(js)
+	if len(arr) != 4 {
+		return errors.New(t("jsx-function-notfound"))
+	}
+	jsxFnArgs := strings.Split(js[arr[2]:arr[3]], ",")
+	if len(jsxFnArgs) != 3 {
+		return errors.New(t("jsx-function-notfound"))
+	}
+
+	injection := fmt.Sprintf(`%s=vcc_auto_translate(%s,%s);`, jsxFnArgs[1], jsxFnArgs[0], jsxFnArgs[1])
+	js = js[:arr[1]] + injection + js[arr[1]:]
+
+	backupFile := jsFilename + ".backup"
+	if _, err := os.Stat(backupFile); os.IsNotExist(err) {
+		_, err = utils.CopyFile(jsFilename, backupFile)
 		if err != nil {
 			return errors.WithStack(err)
 		}
-		if err = os.WriteFile(filepath.Join(webappDist, "localization", f.Name()), data, 0644); err != nil {
-			return errors.WithStack(err)
-		}
+	}
+
+	js = jsPrefix + script + jsSuffix + js
+	if err = os.WriteFile(jsFilename, []byte(js), 0600); err != nil {
+		return errors.WithStack(err)
 	}
 	return nil
 }

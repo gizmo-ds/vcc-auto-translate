@@ -36,6 +36,14 @@ var locales = M{
 		"zh": "WebApp目录未找到",
 		"en": "WebApp not found",
 	},
+	"script-notfound": M{
+		"zh": "index脚本未找到",
+		"en": "index Script not found",
+	},
+	"jsx-function-notfound": M{
+		"zh": "jsx函数未找到",
+		"en": "jsx function not found",
+	},
 }
 
 var userLocale = "en"
