@@ -102,7 +102,7 @@ func installer(vccPath string) error {
 
 	// TODO: 搜索字符串的方式在VCC的代码结构出现改动时可能会失效, 以后可以尝试修改为通过AST处理
 	var jsxFunctionName string
-	for _, expr := range []string{`[0-9A-Za-z]+\.jsx=([0-9A-Za-z]+)`, `[0-9A-Za-z]+\.jsxs=([0-9A-Za-z]+)`} {
+	for _, expr := range []string{`[0-9A-Za-z]+\.jsx=([0-9A-Za-z_]+)`, `[0-9A-Za-z]+\.jsxs=([0-9A-Za-z_]+)`} {
 		r, err := regexp.Compile(expr)
 		if err != nil {
 			continue
