@@ -11,8 +11,9 @@ VCC(VRChat Creator Companion) 的翻译脚本, 用于自动翻译 VCC 的界面.
 - [简体中文](./localization/zh-hans.json)
 - [繁体中文](./localization/zh-hant.json)
 
-> Todo  
-> [v1.3.0](https://github.com/gizmo-ds/vcc-auto-translate/releases/tag/v1.3.0-beta) 以后的版本不再对 VCC v2.2.2 以前的版本进行适配, 如有需要使用旧版本, 请下载`v1.3.0`之前的版本.  
+> **Todo**  
+> [v1.3.0](https://github.com/gizmo-ds/vcc-auto-translate/releases/tag/v1.3.0-beta) 以后的版本不再对 VCC v2.2.2
+> 以前的版本进行适配, 如有需要使用旧版本, 请下载`v1.3.0`之前的版本.  
 > 因爲進行了較大的更新, 繁体中文的翻譯還需要一點時間.
 
 ## Screenshots
@@ -27,6 +28,14 @@ VCC(VRChat Creator Companion) 的翻译脚本, 用于自动翻译 VCC 的界面.
 该工具会自动安装翻译脚本.
 
 > 如果出现错误, 请尝试将安装工具移动到 VCC 安装目录下运行. (与`CreatorCompanion.exe`同目录)
+
+## 如何移除翻译脚本?
+
+1. 删除 `[VCC安装目录]/WebApp/Dist/assets` 目录下的 `index-[hash].js` 文件
+2. 将 `[VCC安装目录]/WebApp/Dist/assets` 目录下的 `index-[hash].js.backup` 重命名为 `index-[hash].js`
+
+> **Note**  
+> 文件名中的`[hash]`为长度8的字母和数字, 每个VCC版本都不固定
 
 ## 手动编译并安装
 
