@@ -36,7 +36,7 @@ VCC(VRChat Creator Companion) 的翻译脚本, 用于自动翻译 VCC 的界面.
 - [git](https://git-scm.com/)
 - [esbuild](https://esbuild.github.io/getting-started/#install-esbuild)
 - [make](https://duckduckgo.com/?q=make+install) (可选)
-- [upx](https://github.com/upx/upx/releases/latest)(可选)
+- [upx](https://github.com/upx/upx/releases/latest) (可选)
 
 如果你有安装`make`和`upx`, 你只需要执行`make`即可完成编译, 你可以在`build`目录找到自动安装工具.
 
@@ -53,6 +53,10 @@ $ go build -trimpath -ldflags "-s -w" -o build/vcc-auto-translate-installer.exe 
 ## 类似的项目
 
 - [VRChat-Creator-Companion-zh-CN](https://github.com/Sonic853/VRChat-Creator-Companion-zh-CN)
+
+## 贡献者
+
+![Contributors](https://contributors.aika.dev/gizmo-ds/vcc-auto-translate/contributors.svg?align=left)
 
 ## Sponsors
 
