@@ -86,9 +86,7 @@ func installer(vccPath string) error {
 	if !ok {
 		return errors.New(t("script-notfound"))
 	}
-	if strings.HasPrefix(jsFilename, "/") {
-		jsFilename = jsFilename[1:]
-	}
+	jsFilename = strings.TrimPrefix(jsFilename, "/")
 	jsFilename = filepath.Join(filepath.Dir(indexFile), jsFilename)
 
 	jsData, err := os.ReadFile(jsFilename)
