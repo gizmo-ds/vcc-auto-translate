@@ -1,5 +1,6 @@
 import zhHans from './localization/zh-hans.json'
 import zhHant from './localization/zh-hant.json'
+const debug_mode = localStorage.getItem('vcc_auto_translate_debug') === 'true'
 const supported_languages = {
   'zh-CN': zhHans,
   'zh-TW': zhHant,
@@ -75,7 +76,7 @@ globalThis['vcc_auto_translate'] = (e: any, t: any) => {
       (e) => e === element_name || `Styled(${e})` === element_name
     )
   ) {
-    if (element_name)
+    if (element_name && debug_mode)
       console.warn(
         'not supported element:',
         `[${element_name}]`,
@@ -112,6 +113,5 @@ globalThis['vcc_auto_translate'] = (e: any, t: any) => {
     t.style = t.style
       ? Object.assign(t.style, { whiteSpace: 'nowrap' })
       : { whiteSpace: 'nowrap' }
-
   return t
 }
