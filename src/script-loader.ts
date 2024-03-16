@@ -13,25 +13,27 @@ async function main() {
   const patched_filename = index_script_file.replace(/\.js$/, '.patched.js')
   const local_patched_filename = await kv_get('patched-filename', store)
   let patched_code: string | undefined
-  if (!local_patched_filename || local_patched_filename !== patched_filename) {
-    const loading = create_loading()
-    document.body.appendChild(loading)
-
-    const u = new URL(location.origin)
-    u.pathname = index_script_file
-    const code = await fetch(u.href).then((res) => res.text())
-    patched_code = await injector(code, 'vcc_auto_translate')
-    console.log('patched 🎉')
-    kv_set('patched-filename', patched_filename, store)
-    await kv_set('patched-content', patched_code, store)
-    loading.remove()
-  }
 
   const supported_languages = {
     'zh-CN': zhHans,
     'zh-TW': zhHant,
   }
   const localization = supported_languages[navigator.language]
+
+  if (!local_patched_filename || local_patched_filename !== patched_filename) {
+    const loading = create_loading()
+    document.querySelector('#root')?.before(loading)
+
+    const u = new URL(location.origin)
+    u.pathname = index_script_file
+    const code = await fetch(u.href).then((res) => res.text())
+    patched_code = await injector(code, 'vcc_auto_translate')
+    loading.innerText = '翻译补丁已应用 🎉'
+    kv_set('patched-filename', patched_filename, store)
+    await kv_set('patched-content', patched_code, store)
+
+    setTimeout(() => loading.remove(), 1000)
+  }
 
   const translater = new Translater(localization)
   globalThis.vcc_auto_translate = translater.translate.bind(translater)
@@ -47,12 +49,13 @@ async function load_patched_code(patched_code?: string) {
   document.body.appendChild(e)
 }
 
-function create_loading() {
+function create_loading(text = '正在应用翻译补丁...') {
   const loading = document.createElement('p')
-  loading.innerText = 'Loading...'
+  loading.innerText = text
   loading.style.height = '100vh'
   loading.style.textAlign = 'center'
   loading.style.paddingTop = '45vh'
   loading.style.fontSize = 'xxx-large'
+  loading.style.zIndex = '2000'
   return loading
 }
