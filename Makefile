@@ -3,6 +3,9 @@ all: build-script build-installer compress sha256sum
 build-script:
 	@esbuild src/index.ts --bundle --minify --format=iife --platform=browser --outfile=cmd/installer/vcc-auto-translate.js
 
+build-injector:
+	@esbuild .\src\injector.ts --bundle --format=esm --platform=browser --target=es2017 --minify --outfile=docs/injector.min.js
+
 build-installer: build-script
 	@mkdir -p build
 	@cp -r localization/*.json cmd/installer/localization
