@@ -1,0 +1,28 @@
+{
+  "name": "vcc-auto-translate",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Gizmo",
+    "email": "me@aika.dev"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@babel/generator": "^7.23.6",
+    "@babel/parser": "^7.24.0",
+    "@babel/traverse": "^7.24.0",
+    "@babel/types": "^7.24.0"
+  },
+  "devDependencies": {
+    "@types/babel__generator": "^7.6.8",
+    "@types/babel__traverse": "^7.20.5",
+    "@types/node": "^20.11.28",
+    "esno": "^4.7.0"
+  }
+}
