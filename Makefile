@@ -4,10 +4,10 @@ build-script:
 	@esbuild src/index.ts --bundle --minify --format=iife --platform=browser --outfile=cmd/installer/vcc-auto-translate.js
 
 build-injector:
-	@esbuild .\src\injector.ts --bundle --format=esm --platform=browser --target=es2017 --minify --outfile=docs/injector.min.js
+	@esbuild src/injector.ts --bundle --format=esm --platform=browser --target=es2017 --minify --outfile=docs/injector.min.js
 
 build-script-loader:
-	@esbuild .\src\script-loader.ts --bundle --format=esm --platform=browser --target=es2017 --minify --outfile=build/script-loader.js
+	@esbuild src/script-loader.ts --bundle --format=esm --platform=browser --target=es2017 --minify --outfile=build/script-loader.js
 
 build-installer: build-script
 	@mkdir -p build
