@@ -13,7 +13,6 @@ build-installer: build-script
 	@mkdir -p build
 	@cp -r localization/*.json cmd/installer/localization
 	@GOOS=windows CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o build/vcc-auto-translate-installer.exe cmd/installer/main.go
-	@cp cmd/installer/vcc-auto-translate.js build/
 
 sha256sum:
 	@rm -f build/*.sha256; for file in build/*; do sha256sum $$file > $$file.sha256; done
