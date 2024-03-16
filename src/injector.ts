@@ -1,69 +1,58 @@
-import { parse } from '@babel/parser'
-import traverse from '@babel/traverse'
-import {
-  expressionStatement,
-  assignmentExpression,
-  callExpression,
-  identifier,
-  Identifier,
-} from '@babel/types'
-import { CodeGenerator } from '@babel/generator'
+import { FunctionDeclaration, Identifier } from '@babel/types'
+import { walkAST, babelParse } from 'ast-walker-scope'
+import { MagicString } from 'magic-string-ast'
 
 export async function injector(code: string, fname: string): Promise<string> {
   return new Promise<string>(async (resolve, reject) => {
-    const ast = parse(code, { sourceType: 'module' })
+    const ms = new MagicString(code)
+    const ast = babelParse(code)
 
     let inject = false
+    let jsx_func_name = ''
+    const funcs: Record<string, FunctionDeclaration> = {}
 
-    traverse(ast, {
-      AssignmentExpression(path) {
-        const node = path.node
+    walkAST(ast, {
+      enter(node) {
+        if (inject) return this.skip()
+        if (node.type === 'FunctionDeclaration' && node.id) {
+          funcs[node.id.name] = node
+          return this.skip()
+        }
         if (
+          node.type === 'AssignmentExpression' &&
           node.operator === '=' &&
           node.left.type === 'MemberExpression' &&
           node.left.property.type === 'Identifier' &&
           node.right.type === 'Identifier' &&
           node.left.property.name === 'jsxs'
         ) {
-          if (inject) return
-          const name = node.right.name
-          traverse(
-            path.parentPath.parent,
-            {
-              FunctionDeclaration(path) {
-                if (inject) return
-                const node = path.node
-                if (node.id?.name === name) {
-                  traverse(
-                    node,
-                    {
-                      VariableDeclaration(path) {
-                        if (inject) return
-                        //@ts-ignore
-                        const params: Identifier[] = node.params
-
-                        const n = expressionStatement(
-                          assignmentExpression(
-                            '=',
-                            params[1],
-                            callExpression(identifier(fname), [params[0], params[1]])
-                          )
-                        )
-                        path.insertBefore(n)
-                        inject = true
-                      },
-                    },
-                    path.scope
-                  )
-                }
-              },
-            },
-            path.parentPath.parentPath?.scope
-          )
+          jsx_func_name = node.right.name
+          inject = true
         }
       },
     })
+    const jsx_func = funcs[jsx_func_name]
+    if (jsx_func_name !== '' && jsx_func !== undefined) {
+      let inject = false
 
-    resolve(new CodeGenerator(ast).generate().code)
+      //@ts-ignore
+      const params: Identifier[] = jsx_func.params
+
+      walkAST(jsx_func, {
+        enter(node) {
+          if (inject) return this.skip()
+          if (node.type === 'VariableDeclaration') {
+            ms.appendRight(
+              node.start!,
+              `${params[1].name}=${fname}(${params[0].name},${params[1].name});`
+            )
+            inject = true
+            return this.skip()
+          }
+        },
+      })
+    }
+
+    resolve(ms.toString())
   })
 }

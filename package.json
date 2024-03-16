@@ -14,14 +14,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/generator": "^7.23.6",
-    "@babel/parser": "^7.24.0",
-    "@babel/traverse": "^7.24.0",
-    "@babel/types": "^7.24.0"
+    "@babel/types": "^7.24.0",
+    "ast-walker-scope": "^0.6.1",
+    "magic-string-ast": "^0.3.0"
   },
   "devDependencies": {
-    "@types/babel__generator": "^7.6.8",
-    "@types/babel__traverse": "^7.20.5",
     "@types/node": "^20.11.28",
     "esno": "^4.7.0"
   }
