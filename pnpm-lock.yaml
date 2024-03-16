@@ -11,6 +11,9 @@ dependencies:
   ast-walker-scope:
     specifier: ^0.6.1
     version: 0.6.1
+  idb-keyval:
+    specifier: ^6.2.1
+    version: 6.2.1
   magic-string-ast:
     specifier: ^0.3.0
     version: 0.3.0
@@ -336,6 +339,10 @@ packages:
     dependencies:
       resolve-pkg-maps: 1.0.0
     dev: true
+
+  /idb-keyval@6.2.1:
+    resolution: {integrity: sha512-8Sb3veuYCyrZL+VBt9LJfZjLUPWVvqn8tG28VqYNFCo43KHcKuq+b4EiXGeuaLAQWL2YmyDgMp2aSpH9JHsEQg==}
+    dev: false
 
   /magic-string-ast@0.3.0:
     resolution: {integrity: sha512-0shqecEPgdFpnI3AP90epXyxZy9g6CRZ+SZ7BcqFwYmtFEnZ1jpevcV5HoyVnlDS9gCnc1UIg3Rsvp3Ci7r8OA==}
