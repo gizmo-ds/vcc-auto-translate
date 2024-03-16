@@ -1,5 +1,5 @@
-import zhHans from './localization/zh-hans.json'
-import zhHant from './localization/zh-hant.json'
+import zhHans from '../localization/zh-hans.json'
+import zhHant from '../localization/zh-hant.json'
 const debug_mode = localStorage.getItem('vcc_auto_translate_debug') === 'true'
 const supported_languages = {
   'zh-CN': zhHans,
@@ -56,7 +56,7 @@ function tr(s: string) {
   const text = localization[s]
   return [text !== undefined, text ?? s]
 }
-globalThis['vcc_auto_translate'] = (e: any, t: any) => {
+export function vcc_auto_translate(e: any, t: any) {
   if (!localization) return t
   if (!e) return t
   const element_name = typeof e === 'string' ? e : e.displayName
@@ -115,3 +115,5 @@ globalThis['vcc_auto_translate'] = (e: any, t: any) => {
       : { whiteSpace: 'nowrap' }
   return t
 }
+
+globalThis.vcc_auto_translate = vcc_auto_translate

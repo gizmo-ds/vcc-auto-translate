@@ -1,7 +1,7 @@
 all: build-script build-installer compress sha256sum
 
 build-script:
-	@esbuild vcc-auto-translate.ts --bundle --minify --format=iife --platform=browser --outfile=cmd/installer/vcc-auto-translate.js
+	@esbuild src/index.ts --bundle --minify --format=iife --platform=browser --outfile=cmd/installer/vcc-auto-translate.js
 
 build-installer: build-script
 	@mkdir -p build
