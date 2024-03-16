@@ -72,16 +72,10 @@ export function vcc_auto_translate(e: any, t: any) {
     )
   else if (
     // 忽略不受支持的 Element
-    !supported_element_name.find(
-      (e) => e === element_name || `Styled(${e})` === element_name
-    )
+    !supported_element_name.find((e) => e === element_name || `Styled(${e})` === element_name)
   ) {
     if (element_name && debug_mode)
-      console.warn(
-        'not supported element:',
-        `[${element_name}]`,
-        t.children ?? t.placeholder
-      )
+      console.warn('not supported element:', `[${element_name}]`, t.children ?? t.placeholder)
     return t
   }
 
@@ -93,8 +87,7 @@ export function vcc_auto_translate(e: any, t: any) {
       if (!children_translated) children_translated = k === 'children' && r[0]
       t[k] = r[1]
     }
-    if (Array.isArray(t[k]))
-      t[k] = t[k].map((e: any) => (typeof e === 'string' ? tr(e)[1] : e))
+    if (Array.isArray(t[k])) t[k] = t[k].map((e: any) => (typeof e === 'string' ? tr(e)[1] : e))
   }
   // 如果 children 没有被翻译的话, 尝试使用匹配器进行翻译
   if (t.children && typeof t.children === 'string' && !children_translated)
@@ -110,9 +103,7 @@ export function vcc_auto_translate(e: any, t: any) {
   /* 样式优化 */
   // 修复 Projects 标题的换行问题
   if (element_name == 'Title1' && t.children === localization['Projects'])
-    t.style = t.style
-      ? Object.assign(t.style, { whiteSpace: 'nowrap' })
-      : { whiteSpace: 'nowrap' }
+    t.style = t.style ? Object.assign(t.style, { whiteSpace: 'nowrap' }) : { whiteSpace: 'nowrap' }
   return t
 }
 
