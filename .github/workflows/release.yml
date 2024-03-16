@@ -20,6 +20,13 @@ jobs:
         with:
           go-version: 'stable'
 
+      - run: corepack enable
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20.11.1
+          cache: pnpm
+      - run: pnpm install
+
       - name: Install esbuild
         run: |
           curl -fsSL https://esbuild.github.io/dl/latest | sh
