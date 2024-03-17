@@ -8,6 +8,7 @@ build-injector:
 
 build-script-loader:
 	@pnpm esno scripts/build-script-loader.ts
+	@rm -rf build/*.css
 
 build-installer: build-script
 	@mkdir -p build
@@ -18,7 +19,7 @@ sha256sum:
 	@rm -f build/*.sha256; for file in build/*; do sha256sum $$file > $$file.sha256; done
 
 compress: build-installer
-	@for file in build/*.exe; do upx $$file; done
+	@if [ -n "$(shell command -v upx 2> /dev/null)" ]; then for file in build/*.exe; do upx $$file; done; fi
 
 clean:
 	@rm -f cmd/installer/vcc-auto-translate.js
