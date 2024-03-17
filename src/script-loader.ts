@@ -3,7 +3,7 @@ import { get as kv_get, set as kv_set, createStore } from 'idb-keyval'
 import { Translater } from './translate'
 import { fluentProgress, provideFluentDesignSystem } from '@fluentui/web-components'
 
-import style from './script-loader.module.css'
+import style from './styles/script-loader.module.css'
 
 import zhHans from '../localization/zh-hans.json'
 import zhHant from '../localization/zh-hant.json'
