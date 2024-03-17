@@ -1,6 +1,10 @@
 import { injector } from './injector'
 import { get as kv_get, set as kv_set, createStore } from 'idb-keyval'
 import { Translater } from './translate'
+import { fluentProgress, provideFluentDesignSystem } from '@fluentui/web-components'
+
+import style from './script-loader.module.css'
+
 import zhHans from '../localization/zh-hans.json'
 import zhHant from '../localization/zh-hant.json'
 
@@ -28,11 +32,13 @@ async function main() {
     u.pathname = index_script_file
     const code = await fetch(u.href).then((res) => res.text())
     patched_code = await injector(code, 'vcc_auto_translate')
-    loading.innerText = '翻译补丁已应用 🎉'
+
+    update_loading(loading, '翻译补丁已应用 🎉')
+
     kv_set('patched-filename', patched_filename, store)
     await kv_set('patched-content', patched_code, store)
 
-    setTimeout(() => loading.remove(), 1000)
+    setTimeout(() => loading.remove(), 2000)
   }
 
   const translater = new Translater(localization)
@@ -50,12 +56,39 @@ async function load_patched_code(patched_code?: string) {
 }
 
 function create_loading(text = '正在应用翻译补丁...') {
-  const loading = document.createElement('p')
-  loading.innerText = text
-  loading.style.height = '100vh'
-  loading.style.textAlign = 'center'
-  loading.style.paddingTop = '45vh'
-  loading.style.fontSize = 'xxx-large'
-  loading.style.zIndex = '2000'
+  provideFluentDesignSystem().register(fluentProgress())
+
+  const loading = document.createElement('div')
+  loading.className = style.patchLoadingCover
+
+  const loadingText = document.createElement('p')
+  loadingText.className = style.patchLoadingText
+  loadingText.innerText = text
+
+  const loadingProgress = document.createElement('fluent-progress')
+  loadingProgress.className = style.patchLoadingProgress
+  loadingProgress.setAttribute('indeterminate', '')
+
+  loading.appendChild(loadingText)
+  loading.appendChild(loadingProgress)
+
+  switch (localStorage.getItem('app_theme')) {
+    case 'Light':
+      loading.classList.add(style.light)
+      break
+    case 'Dark':
+      loading.classList.add(style.dark)
+      break
+  }
+
   return loading
+}
+
+function update_loading(loadingElement: HTMLElement, text: string) {
+  const loadingText = document.createElement('p')
+  loadingText.className = style.patchLoadingText
+  loadingText.innerText = text
+
+  loadingElement.innerHTML = ''
+  loadingElement.appendChild(loadingText)
 }

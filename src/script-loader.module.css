@@ -1,0 +1,54 @@
+.patch-loading-cover {
+  --patch-loading-cover-dark-background: #1f1f1f;
+  --patch-loading-cover-dark-color: #ffffff;
+
+  --patch-loading-cover-light-background: #fafafa;
+  --patch-loading-cover-light-color: #242424;
+}
+
+.patch-loading-cover {
+  background: var(--patch-loading-cover-light-background);
+  color: var(--patch-loading-cover-light-color) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .patch-loading-cover {
+    background: var(--patch-loading-cover-dark-background);
+    color: var(--patch-loading-cover-dark-color) !important;
+  }
+}
+
+.patch-loading-cover.dark {
+  background: var(--patch-loading-cover-dark-background) !important;
+  color: var(--patch-loading-cover-dark-color) !important;
+}
+
+.patch-loading-cover.light {
+  background: var(--patch-loading-cover-light-background);
+  color: var(--patch-loading-cover-light-color) !important;
+}
+
+.patch-loading-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  height: 100vh;
+  width: 100vw;
+
+  z-index: 1000;
+}
+
+.patch-loading-text {
+  font-size: xx-large;
+}
+
+.patch-loading-progress {
+  margin-top: 1rem;
+  width: 400px;
+}
