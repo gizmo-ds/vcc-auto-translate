@@ -1,5 +1,5 @@
 import { injector } from './injector'
-import { get as kv_get, set as kv_set, createStore } from 'idb-keyval'
+import { get as kv_get, set as kv_set, createStore, delMany as kv_del } from 'idb-keyval'
 import { Translater } from './translate'
 import { fluentProgress, provideFluentDesignSystem } from '@fluentui/web-components'
 
@@ -8,6 +8,7 @@ import style from './styles/script-loader.module.css'
 import zhHans from '../localization/zh-hans.json'
 import zhHant from '../localization/zh-hant.json'
 
+const inject_function_name = '__vcc_auto_translate__'
 const store = createStore('vcc_auto_translate', 'store')
 
 main()
@@ -31,7 +32,7 @@ async function main() {
     const u = new URL(location.origin)
     u.pathname = index_script_file
     const code = await fetch(u.href).then((res) => res.text())
-    patched_code = await injector(code, 'vcc_auto_translate')
+    patched_code = await injector(code, inject_function_name)
 
     update_loading(loading, '翻译补丁已应用 🎉')
 
@@ -42,7 +43,9 @@ async function main() {
   }
 
   const translater = new Translater(localization)
-  globalThis.vcc_auto_translate = translater.translate.bind(translater)
+  globalThis[inject_function_name] = translater.translate.bind(translater)
+  globalThis[inject_function_name]['restore'] = () =>
+    kv_del(['patched-content', 'patched-filename'], store)
 
   load_patched_code(patched_code)
 }
