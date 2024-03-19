@@ -31,33 +31,20 @@ VCC(VRChat Creator Companion) 的翻译脚本, 用于自动翻译 VCC 的界面.
 
 ## 如何移除翻译脚本?
 
-1. 删除 `[VCC安装目录]/WebApp/Dist/assets` 目录下的 `index-[hash].js` 文件
-2. 将 `[VCC安装目录]/WebApp/Dist/assets` 目录下的 `index-[hash].js.backup` 重命名为 `index-[hash].js`
-
-> **Note**  
-> 文件名中的`[hash]`为长度8的字母和数字, 每个VCC版本都不固定
+1. 删除 `[VCC安装目录]/WebApp/Dist` 目录下的 `index.html` 文件
+2. 将 `[VCC安装目录]/WebApp/Dist` 目录下的 `index.html.backup` 重命名为 `index.html`
 
 ## 手动编译并安装
 
 环境要求:
 
 - [Go 1.20+](https://go.dev/doc/install)
-- [git](https://git-scm.com/)
-- [esbuild](https://esbuild.github.io/getting-started/#install-esbuild)
+- [node + package manager](https://nodejs.org/) / [bun](https://bun.sh/)
 - [make](https://duckduckgo.com/?q=make+install) (可选)
 - [upx](https://github.com/upx/upx/releases/latest) (可选)
 
-如果你有安装`make`和`upx`, 你只需要执行`make`即可完成编译, 你可以在`build`目录找到自动安装工具.
-
-如果你有安装`make`, 但没安装`upx`, 你可以执行`make build-script build-installer`进行编译.
-
-如果你不使用`make`, 你可以依次执行下面的命令进行编译.
-
-```shell
-$ esbuild vcc-auto-translate.ts --bundle --minify --format=iife --platform=browser --outfile=cmd/installer/vcc-auto-translate.js
-$ cp -r localization/*.json cmd/installer/localization
-$ go build -trimpath -ldflags "-s -w" -o build/vcc-auto-translate-installer.exe cmd/installer/main.go
-```
+如果你有安装`make`工具, 你只需要执行`make`命令即可完成编译, 你可以在`build`目录找到自动安装工具.  
+如果你不使用`make`工具的话可以参考[Makefile](./Makefile)文件进行手动编译.
 
 ## 类似的项目
 
