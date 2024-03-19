@@ -1,44 +1,13 @@
-const debug_mode = localStorage.getItem('vcc_auto_translate_debug') === 'true'
-
 export class Translater {
   localization: Record<string, string>
   localization_matcher: any
+  // prettier-ignore
   supported_element_name = [
-    'Button',
-    'SplitButton',
-    'ToggleButton',
-    'DataGridHeaderCell',
-    'TableHeaderCell',
-    'MenuItem',
-    'Body1',
-    'Title1',
-    'Title3',
-    'Subtitle2',
-    'Input',
-    'DialogTitle',
-    'DialogContent',
-    'Caption1',
-    'Badge',
-    'Subtitle1',
-    'Label',
-    'Option',
-    'Tab',
-    'Dropdown',
-    'Link',
-    'ToastBody',
-    'Checkbox',
-    'Alert',
-    'TableCellLayout',
-    'OptionGroup',
+    'Button', 'SplitButton', 'ToggleButton', 'DataGridHeaderCell', 'TableHeaderCell', 'MenuItem', 'Body1', 'Title1', 'Title3',
+    'Subtitle2', 'Input', 'DialogTitle', 'DialogContent', 'Caption1', 'Badge', 'Subtitle1', 'Label', 'Option', 'Tab', 'Dropdown',
+    'Link', 'ToastBody', 'Checkbox', 'Alert', 'TableCellLayout', 'OptionGroup',
 
-    'li',
-    'span',
-    'label',
-    'div',
-    'b',
-    'input',
-    'p',
-    'code',
+    'li', 'span', 'label', 'div', 'b', 'input', 'p', 'code'
   ]
 
   constructor(localization: Record<string, string>) {
@@ -74,7 +43,7 @@ export class Translater {
         (e) => e === element_name || `Styled(${e})` === element_name
       )
     ) {
-      if (element_name && debug_mode)
+      if (element_name && process.env.DEBUG_MODE === 'true')
         console.warn('not supported element:', `[${element_name}]`, t.children ?? t.placeholder)
       return t
     }

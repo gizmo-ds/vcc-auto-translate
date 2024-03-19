@@ -3,13 +3,14 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "target": "ES2020",
-    "jsx": "react",
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "sourceMap": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "allowArbitraryExtensions": true
+    "allowArbitraryExtensions": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "jsx-dom"
   },
   "exclude": ["node_modules", "**/node_modules/*"]
 }

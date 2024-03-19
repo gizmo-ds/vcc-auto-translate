@@ -17,6 +17,9 @@ dependencies:
   idb-keyval:
     specifier: ^6.2.1
     version: 6.2.1
+  jsx-dom:
+    specifier: ^8.1.3
+    version: 8.1.3
   magic-string-ast:
     specifier: ^0.3.0
     version: 0.3.0
@@ -25,6 +28,9 @@ devDependencies:
   '@types/node':
     specifier: ^20.11.28
     version: 20.11.28
+  dotenv:
+    specifier: ^16.4.5
+    version: 16.4.5
   esbuild:
     specifier: ^0.20.2
     version: 0.20.2
@@ -537,10 +543,19 @@ packages:
       ast-kit: 0.12.1
     dev: false
 
+  /csstype@3.1.3:
+    resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
+    dev: false
+
   /detect-libc@1.0.3:
     resolution: {integrity: sha512-pGjwhsmsp4kL2RTz08wcOlGN83otlqHeD/Z5T8GXZB+/YcpQ/dgo+lbU8ZsGxV0HIvqqxo9l7mqYwyYMD9bKDg==}
     engines: {node: '>=0.10'}
     hasBin: true
+    dev: true
+
+  /dotenv@16.4.5:
+    resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
+    engines: {node: '>=12'}
     dev: true
 
   /esbuild-css-modules-plugin@3.1.0(esbuild@0.20.2):
@@ -643,6 +658,12 @@ packages:
 
   /idb-keyval@6.2.1:
     resolution: {integrity: sha512-8Sb3veuYCyrZL+VBt9LJfZjLUPWVvqn8tG28VqYNFCo43KHcKuq+b4EiXGeuaLAQWL2YmyDgMp2aSpH9JHsEQg==}
+    dev: false
+
+  /jsx-dom@8.1.3:
+    resolution: {integrity: sha512-TQNVHkUui+6rTPL8nqaM5izAcfqzM1lCLnLj2KU/xnecDuMX0MtaBN3evoF89Nz1d984Pi6wXcqoCOltWVzm9Q==}
+    dependencies:
+      csstype: 3.1.3
     dev: false
 
   /lightningcss-darwin-arm64@1.24.1:

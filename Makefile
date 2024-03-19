@@ -1,18 +1,14 @@
-all: build-script build-installer build-script-loader compress sha256sum
-
-build-script:
-	@pnpm esbuild src/index.ts --bundle --minify --format=iife --platform=browser --outfile=cmd/installer/vcc-auto-translate.js
+all: build-installer compress sha256sum
 
 build-injector:
-	@pnpm esbuild src/injector.ts --bundle --format=esm --platform=browser --target=es2017 --minify --outfile=docs/injector.min.js
+	@pnpm esno scripts/build-injector.ts
 
 build-script-loader:
 	@pnpm esno scripts/build-script-loader.ts
 	@rm -rf build/*.css
 
-build-installer: build-script
-	@mkdir -p build
-	@cp -r localization/*.json cmd/installer/localization
+build-installer: build-script-loader
+	@cp build/script-loader.js cmd/installer/script-loader.js
 	@GOOS=windows CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o build/vcc-auto-translate-installer.exe cmd/installer/main.go
 
 sha256sum:
