@@ -1,10 +1,12 @@
+pm = $(if $(shell command -v bun 2> /dev/null), bun, pnpm)
+
 all: build-installer compress sha256sum
 
 build-injector:
-	@pnpm esno scripts/build-injector.ts
+	@${pm} esbuild src/injector.ts --bundle --format=esm --platform=browser --target=es2017 --minify --outfile=docs/injector.min.js
 
 build-script-loader:
-	@pnpm esno scripts/build-script-loader.ts
+	@${pm} esno scripts/build-script-loader.ts
 	@rm -rf build/*.css
 
 build-installer: build-script-loader
