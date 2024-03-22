@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+
 	"vcc-auto-translate-installer/cmd/installer/utils"
 
 	"github.com/PuerkitoBio/goquery"
@@ -35,18 +36,17 @@ type stackTracer interface {
 func main() {
 	fmt.Println(t("banner"))
 
+	var err error
 	var vccInstallPath string
-	_, err := os.Stat("CreatorCompanion.exe")
-	if err != nil {
+	if !utils.FilesExist("CreatorCompanion.exe", "CreatorCompanionBeta.exe") {
 		vccInstallPath, err = utils.FindVCCInstallPath()
 		if err != nil {
 			fmt.Println(t("error", err.Error()))
 			pause()
 			os.Exit(2)
 		}
+		fmt.Println(t("vcc-path", vccInstallPath))
 	}
-
-	fmt.Println(t("vcc-path", vccInstallPath))
 
 	if err = installer(vccInstallPath); err != nil {
 		if e, ok := err.(stackTracer); ok {

@@ -27,3 +27,12 @@ func CopyFile(src, dst string) (int64, error) {
 	written, err := io.Copy(d, source)
 	return written, err
 }
+
+func FilesExist(files ...string) bool {
+	for _, file := range files {
+		if _, err := os.Stat(file); err == nil {
+			return true
+		}
+	}
+	return false
+}
