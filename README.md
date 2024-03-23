@@ -3,18 +3,14 @@
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/gizmo-ds/vcc-auto-translate?style=flat-square)
 [![Release](https://img.shields.io/github/v/release/gizmo-ds/vcc-auto-translate.svg?include_prereleases&style=flat-square)](https://github.com/gizmo-ds/vcc-auto-translate/releases/latest)
 [![License](https://img.shields.io/github/license/gizmo-ds/vcc-auto-translate?style=flat-square)](./LICENSE)
+![简体中文](<https://img.shields.io/badge/dynamic/json?color=blue&label=%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87&style=flat-square&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-CN%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15293064-658026.json>)
+![正體中文](<https://img.shields.io/badge/dynamic/json?color=blue&label=%E6%AD%A3%E9%AB%94%E4%B8%AD%E6%96%87&style=flat-square&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-TW%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15293064-658026.json>)
 
 VCC(VRChat Creator Companion) 的翻译脚本, 用于自动翻译 VCC 的界面.
 
-当前支持的语言:
-
-- [简体中文](./localization/zh-hans.json)
-- [繁体中文](./localization/zh-hant.json)
-
 > [!NOTE]  
 > [v1.3.0](https://github.com/gizmo-ds/vcc-auto-translate/releases/tag/v1.3.0-beta) 以后的版本不再对 VCC v2.2.2
-> 以前的版本进行适配, 如有需要使用旧版本, 请下载`v1.3.0`之前的版本.  
-> 因爲進行了較大的更新, 繁体中文的翻譯還需要一點時間.
+> 以前的版本进行适配, 如有需要使用旧版本, 请下载`v1.3.0`之前的版本.
 
 ## Screenshots
 
