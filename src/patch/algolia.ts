@@ -5,7 +5,8 @@ const info = {
   appId: process.env.ALGOLIA_APPID,
   indexName: process.env.ALGOLIA_INDEXNAME,
 }
-const replace = info.apiKey && info.appId && info.indexName
+const is_str_set = (v: string | undefined) => v && v != ''
+const replace = is_str_set(info.apiKey) && is_str_set(info.appId) && is_str_set(info.indexName)
 
 const fname = '__algolia_patch__'
 let localization: Record<string, string> = {}
