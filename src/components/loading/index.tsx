@@ -1,5 +1,5 @@
 import { fluentProgress, provideFluentDesignSystem } from '@fluentui/web-components'
-import styles from './loading.module.css'
+import styles from './styles.module.css'
 
 export function LoadingComponent(props: { text: string }) {
   provideFluentDesignSystem().register(fluentProgress())
