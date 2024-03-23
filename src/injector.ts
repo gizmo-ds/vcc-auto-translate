@@ -2,20 +2,19 @@ import { FunctionDeclaration, Identifier } from '@babel/types'
 import { walkAST, babelParse } from 'ast-walker-scope'
 import { MagicString } from 'magic-string-ast'
 
-export async function injector(code: string, fname: string): Promise<string> {
+export async function injector_jsx(code: string, functions: string[]): Promise<string> {
   return new Promise<string>(async (resolve, reject) => {
     const ms = new MagicString(code)
     const ast = babelParse(code)
 
-    let inject = false
     let jsx_func_name = ''
-    const funcs: Record<string, FunctionDeclaration> = {}
-
+    let skip = false
+    const funcs: FunctionDeclaration[] = []
     walkAST(ast, {
       enter(node) {
-        if (inject) return this.skip()
-        if (node.type === 'FunctionDeclaration' && node.id) {
-          funcs[node.id.name] = node
+        if (skip) return this.skip()
+        if (node.type === 'FunctionDeclaration' && node.id && node.params.length >= 2) {
+          funcs.push(node)
           return this.skip()
         }
         if (
@@ -27,31 +26,32 @@ export async function injector(code: string, fname: string): Promise<string> {
           node.left.property.name === 'jsxs'
         ) {
           jsx_func_name = node.right.name
-          inject = true
+          skip = true
+          return this.skip()
         }
       },
     })
-    const jsx_func = funcs[jsx_func_name]
-    if (jsx_func_name !== '' && jsx_func !== undefined) {
-      let inject = false
 
-      //@ts-ignore
-      const params: Identifier[] = jsx_func.params
+    if (!jsx_func_name) return reject(new Error('Cannot find jsx function'))
+    const jsx_func = funcs.find((f) => f.id!.name === jsx_func_name)
+    if (!jsx_func) return reject(new Error('Cannot find jsx function'))
 
-      walkAST(jsx_func, {
-        enter(node) {
-          if (inject) return this.skip()
-          if (node.type === 'VariableDeclaration') {
+    skip = false
+    const params = jsx_func.params as Identifier[]
+    walkAST(jsx_func, {
+      enter(node) {
+        if (skip) return this.skip()
+        if (node.type === 'VariableDeclaration') {
+          for (const fname of functions)
             ms.appendRight(
               node.start!,
               `${params[1].name}=${fname}(${params[0].name},${params[1].name});`
             )
-            inject = true
-            return this.skip()
-          }
-        },
-      })
-    }
+          skip = true
+          return this.skip()
+        }
+      },
+    })
 
     resolve(ms.toString())
   })

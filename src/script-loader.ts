@@ -1,19 +1,19 @@
-import { injector } from './injector'
-import { get as kv_get, set as kv_set, createStore, delMany as kv_del } from 'idb-keyval'
-import { Translater } from './translate'
+import { injector_jsx } from './injector'
+import { get as kv_get, set as kv_set, createStore } from 'idb-keyval'
 import { LoadingComponent } from './components/loading'
-import { supported_languages } from './localization'
 
-const inject_function_name = '__vcc_auto_translate__'
+import algolia_patch from './patch/algolia'
+import translate_patch from './patch/translate'
+
 const store = createStore('vcc_auto_translate', 'store')
+
+const patchs = [algolia_patch, translate_patch]
 
 async function main() {
   const index_script_file = document.getElementsByTagName('meta')['index-module'].content
   const patched_filename = index_script_file.replace(/\.js$/, '.patched.js')
   const local_patched_filename = await kv_get('patched-filename', store)
   let patched_code: string | undefined
-
-  const localization = supported_languages[navigator.language]
 
   if (!local_patched_filename || local_patched_filename !== patched_filename) {
     const loading = LoadingComponent({ text: '正在应用翻译补丁...' })
@@ -22,7 +22,10 @@ async function main() {
     const u = new URL(location.origin)
     u.pathname = index_script_file
     const code = await fetch(u.href).then((res) => res.text())
-    patched_code = await injector(code, inject_function_name)
+
+    const inject_functions: string[] = []
+    patchs.forEach((p) => p.patch_jax && inject_functions.push(p.patch_jax.fname))
+    patched_code = await injector_jsx(code, inject_functions)
 
     kv_set('patched-filename', patched_filename, store)
     await kv_set('patched-content', patched_code, store)
@@ -32,10 +35,7 @@ async function main() {
     setTimeout(() => loading.remove(), 2000)
   }
 
-  const translater = new Translater(localization)
-  globalThis[inject_function_name] = translater.translate.bind(translater)
-  globalThis[inject_function_name]['restore'] = () =>
-    kv_del(['patched-content', 'patched-filename'], store)
+  for (const p of patchs) p.patch_jax?.after && (await p.patch_jax.after())
 
   load_patched_code(patched_code)
 }

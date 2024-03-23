@@ -10,7 +10,10 @@
     "allowSyntheticDefaultImports": true,
     "allowArbitraryExtensions": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "jsx-dom"
+    "jsxImportSource": "jsx-dom",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "exclude": ["node_modules", "**/node_modules/*"]
 }

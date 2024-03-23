@@ -1,3 +1,25 @@
+import { createStore, delMany as kv_del } from 'idb-keyval'
+import { supported_languages } from '../localization'
+import { Config } from './patch'
+
+const fname = '__vcc_auto_translate__'
+const store = createStore('vcc_auto_translate', 'store')
+
+const config: Config = {
+  patch_jax: {
+    fname,
+    async after() {
+      const localization = supported_languages[navigator.language] ?? {}
+
+      const translater = new Translater(localization)
+      globalThis[fname] = translater.translate.bind(translater)
+      globalThis[fname]['restore'] = () => kv_del(['patched-content', 'patched-filename'], store)
+    },
+  },
+}
+
+export default config
+
 export class Translater {
   localization: Record<string, string>
   localization_matcher: any
