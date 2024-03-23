@@ -1,3 +1,5 @@
 files:
   - source: /localization/en.json
     translation: /localization/%locale_with_underscore%.json
+  - source: /localization/algolia.en.json
+    translation: /localization/algolia.%locale_with_underscore%.json
