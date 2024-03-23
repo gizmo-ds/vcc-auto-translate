@@ -1,3 +1,9 @@
+pull_request_title: 'chore: sync translations from crowdin'
+pull_request_labels:
+  - translations
+commit_message: 'chore: synced translations from crowdin [skip ci]'
+append_commit_message: false
+
 files:
   - source: /localization/en.json
     translation: /localization/%locale_with_underscore%.json
