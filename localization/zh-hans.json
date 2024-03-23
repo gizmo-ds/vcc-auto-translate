@@ -289,6 +289,8 @@
   "[matcher]Show All Packages ([0-9]+)": "显示所有软件包 ($1)",
   "I Understand, Add Repository": "我已知悉，继续添加仓库",
   "a few seconds ago": "几秒钟前",
+  "an hour ago": "一小时前",
+  "[matcher]([0-9]+) hours ago": "$1 小时前",
   "[matcher]([0-9]+) minutes ago": "$1 分钟前",
   "[matcher]([0-9]+) days ago": "$1 天前",
   "[matcher]([0-9]+) months ago": "$1 月前",
