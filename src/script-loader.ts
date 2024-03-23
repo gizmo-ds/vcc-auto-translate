@@ -24,7 +24,7 @@ async function main() {
     const code = await fetch(u.href).then((res) => res.text())
 
     const inject_functions: string[] = []
-    patchs.forEach((p) => p.patch_jax && inject_functions.push(p.patch_jax.fname))
+    patchs.forEach((p) => p.patch_jsx && inject_functions.push(p.patch_jsx.fname))
     patched_code = await injector_jsx(code, inject_functions)
 
     kv_set('patched-filename', patched_filename, store)
@@ -35,7 +35,7 @@ async function main() {
     setTimeout(() => loading.remove(), 2000)
   }
 
-  for (const p of patchs) p.patch_jax?.after && (await p.patch_jax.after())
+  for (const p of patchs) p.patch_jsx?.after && (await p.patch_jsx.after())
 
   load_patched_code(patched_code)
 }

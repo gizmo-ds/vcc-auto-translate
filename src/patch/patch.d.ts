@@ -1,5 +1,5 @@
 export interface Config {
-  patch_jax?: {
+  patch_jsx?: {
     fname: string
     after?: () => Promise<void>
   }

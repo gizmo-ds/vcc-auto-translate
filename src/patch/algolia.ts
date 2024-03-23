@@ -25,7 +25,7 @@ function func(e: any, t: any) {
 }
 
 const config: Config = {
-  patch_jax: {
+  patch_jsx: {
     fname,
     async after() {
       const supported_languages = {

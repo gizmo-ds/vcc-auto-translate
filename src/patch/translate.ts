@@ -6,7 +6,7 @@ const fname = '__vcc_auto_translate__'
 const store = createStore('vcc_auto_translate', 'store')
 
 const config: Config = {
-  patch_jax: {
+  patch_jsx: {
     fname,
     async after() {
       const localization = supported_languages[navigator.language] ?? {}
