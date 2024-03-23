@@ -5,9 +5,9 @@ export class Translater {
   supported_element_name = [
     'Button', 'SplitButton', 'ToggleButton', 'DataGridHeaderCell', 'TableHeaderCell', 'MenuItem', 'Body1', 'Title1', 'Title3',
     'Subtitle2', 'Input', 'DialogTitle', 'DialogContent', 'Caption1', 'Badge', 'Subtitle1', 'Label', 'Option', 'Tab', 'Dropdown',
-    'Link', 'ToastBody', 'Checkbox', 'Alert', 'TableCellLayout', 'OptionGroup',
+    'Link', 'ToastBody', 'Checkbox', 'Alert', 'TableCellLayout', 'OptionGroup', 'MessageBarBody', 'MenuItem', 'Tooltip',
 
-    'li', 'span', 'label', 'div', 'b', 'input', 'p', 'code'
+    'li', 'span', 'label', 'div', 'b', 'input', 'p', 'code', 'i'
   ]
 
   constructor(localization: Record<string, string>) {
