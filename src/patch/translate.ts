@@ -1,5 +1,5 @@
 import { createStore, delMany as kv_del } from 'idb-keyval'
-import { supported_languages } from '../localization'
+import { supported_languages, language } from '../localization'
 import { Config } from './patch'
 
 const fname = '__vcc_auto_translate__'
@@ -9,7 +9,7 @@ const config: Config = {
   patch_jsx: {
     fname,
     async after() {
-      const localization = supported_languages[navigator.language] ?? {}
+      const localization = supported_languages[language] ?? {}
 
       const translater = new Translater(localization)
       globalThis[fname] = translater.translate.bind(translater)

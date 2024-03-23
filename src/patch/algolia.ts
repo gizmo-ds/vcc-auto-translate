@@ -1,3 +1,4 @@
+import { language } from '../localization'
 import { Config } from './patch'
 
 const info = {
@@ -33,8 +34,7 @@ const config: Config = {
         'zh-TW': (await import('@/localization/algolia.zh_TW.json')).default,
       }
       localization =
-        supported_languages[navigator.language] ??
-        (await import('@/localization/algolia.en.json')).default
+        supported_languages[language] ?? (await import('@/localization/algolia.en.json')).default
       globalThis[fname] = func
     },
   },

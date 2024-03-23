@@ -5,3 +5,8 @@ export const supported_languages = {
   'zh-CN': zhHans,
   'zh-TW': zhHant,
 }
+
+export const language = localStorage.getItem('__vcc_language__') ?? navigator.language
+export function set_language(lang: string) {
+  localStorage.setItem('__vcc_language__', lang)
+}
