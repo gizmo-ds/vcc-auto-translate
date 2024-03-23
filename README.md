@@ -3,8 +3,8 @@
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/gizmo-ds/vcc-auto-translate?style=flat-square)
 [![Release](https://img.shields.io/github/v/release/gizmo-ds/vcc-auto-translate.svg?include_prereleases&style=flat-square)](https://github.com/gizmo-ds/vcc-auto-translate/releases/latest)
 [![License](https://img.shields.io/github/license/gizmo-ds/vcc-auto-translate?style=flat-square)](./LICENSE)
-![简体中文](<https://img.shields.io/badge/dynamic/json?color=blue&label=%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87&style=flat-square&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-CN%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15293064-658026.json>)
-![正體中文](<https://img.shields.io/badge/dynamic/json?color=blue&label=%E6%AD%A3%E9%AB%94%E4%B8%AD%E6%96%87&style=flat-square&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-TW%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15293064-658026.json>)
+[![简体中文](<https://img.shields.io/badge/dynamic/json?color=blue&label=%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87&style=flat-square&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-CN%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15293064-658026.json>)](https://zh.crowdin.com/project/vcc-auto-translate)
+[![正體中文](<https://img.shields.io/badge/dynamic/json?color=blue&label=%E6%AD%A3%E9%AB%94%E4%B8%AD%E6%96%87&style=flat-square&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-TW%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15293064-658026.json>)](https://zh.crowdin.com/project/vcc-auto-translate)
 
 VCC(VRChat Creator Companion) 的翻译脚本, 用于自动翻译 VCC 的界面.
 
