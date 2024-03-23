@@ -363,5 +363,7 @@
   "Clear Settings File": "Clear Settings File",
   "Note, this will completely remove your settings.json file and replace it with a new one. You will need to re-add all the projects, local packages and custom repos again": "Note, this will completely remove your settings.json file and replace it with a new one. You will need to re-add all the projects, local packages and custom repos again",
   "Build Info": "Build Info",
-  "Hey you, you're cool": "Hey you, you're cool"
+  "Hey you, you're cool": "Hey you, you're cool",
+  "Checking Package Availability": "Checking Package Availability",
+  "Packages are being added to the project": "Packages are being added to the project"
 }
