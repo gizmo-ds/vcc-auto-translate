@@ -9,14 +9,19 @@ const info = {
 const is_str_set = (v: string | undefined) => v && v != ''
 const replace = is_str_set(info.apiKey) && is_str_set(info.appId) && is_str_set(info.indexName)
 
+interface Localization {
+  translations: DocSearchTranslations
+  placeholder: string
+}
+
 const fname = '__algolia_patch__'
-let localization: DocSearchTranslations = {}
+let localization: Localization | undefined
 
 function func(e: any, t: any) {
   if (!e) return t
   if (!(t.apiKey && t.appId && t.appId && t.placeholder)) return t
 
-  t.placeholder = localization.placeholder
+  t.placeholder = localization?.placeholder
   t.translations = localization
   if (replace) {
     t.apiKey = info.apiKey
@@ -43,27 +48,23 @@ const config: Config = {
 
 export default config
 
-// https://github.com/algolia/docsearch/blob/main/packages/docsearch-react/src/DocSearch.tsx#L21-L24
-type DocSearchTranslations = Partial<{
-  button: ButtonTranslations
-  modal: ModalTranslations
-  placeholder: string
-}>
+interface DocSearchTranslations
+  extends ButtonTranslations,
+    SearchBoxTranslations,
+    FooterTranslations,
+    ErrorScreenTranslations,
+    StartScreenTranslations,
+    NoResultsScreenTranslations {
+  placeholder?: string
+}
 
-//https://github.com/algolia/docsearch/blob/main/packages/docsearch-react/src/DocSearchButton.tsx#L6-L9
+// https://github.com/algolia/docsearch/blob/2df2e1392fa80e5cc9cafac3437685331b9f07ec/packages/docsearch-react/src/DocSearchButton.tsx#L6-L9
 type ButtonTranslations = Partial<{
   buttonText: string
   buttonAriaLabel: string
 }>
 
-// https://github.com/algolia/docsearch/blob/main/packages/docsearch-react/src/DocSearchModal.tsx#L35-L39
-type ModalTranslations = Partial<{
-  searchBox: SearchBoxTranslations
-  footer: FooterTranslations
-}> &
-  ScreenStateTranslations
-
-// https://github.com/algolia/docsearch/blob/main/packages/docsearch-react/src/SearchBox.tsx#L14-L20
+// https://github.com/algolia/docsearch/blob/2df2e1392fa80e5cc9cafac3437685331b9f07ec/packages/docsearch-react/src/SearchBox.tsx#L14-L20
 type SearchBoxTranslations = Partial<{
   resetButtonTitle: string
   resetButtonAriaLabel: string
@@ -72,7 +73,7 @@ type SearchBoxTranslations = Partial<{
   searchInputLabel: string
 }>
 
-// https://github.com/algolia/docsearch/blob/main/packages/docsearch-react/src/Footer.tsx#L5-L14
+// https://github.com/algolia/docsearch/blob/2df2e1392fa80e5cc9cafac3437685331b9f07ec/packages/docsearch-react/src/Footer.tsx#L5-L14
 type FooterTranslations = Partial<{
   selectText: string
   selectKeyAriaLabel: string
@@ -84,20 +85,13 @@ type FooterTranslations = Partial<{
   searchByText: string
 }>
 
-// https://github.com/algolia/docsearch/blob/main/packages/docsearch-react/src/ScreenState.tsx#L19-L23
-type ScreenStateTranslations = Partial<{
-  errorScreen: ErrorScreenTranslations
-  startScreen: StartScreenTranslations
-  noResultsScreen: NoResultsScreenTranslations
-}>
-
-// https://github.com/algolia/docsearch/blob/main/packages/docsearch-react/src/ErrorScreen.tsx#L5-L8
+// https://github.com/algolia/docsearch/blob/2df2e1392fa80e5cc9cafac3437685331b9f07ec/packages/docsearch-react/src/ErrorScreen.tsx#L5-L8
 type ErrorScreenTranslations = Partial<{
   titleText: string
   helpText: string
 }>
 
-// https://github.com/algolia/docsearch/blob/main/packages/docsearch-react/src/StartScreen.tsx#L8-L15
+// https://github.com/algolia/docsearch/blob/2df2e1392fa80e5cc9cafac3437685331b9f07ec/packages/docsearch-react/src/StartScreen.tsx#L8-L15
 type StartScreenTranslations = Partial<{
   recentSearchesTitle: string
   noRecentSearchesText: string
@@ -107,7 +101,7 @@ type StartScreenTranslations = Partial<{
   removeFavoriteSearchButtonTitle: string
 }>
 
-// https://github.com/algolia/docsearch/blob/main/packages/docsearch-react/src/NoResultsScreen.tsx#L7-L12
+// https://github.com/algolia/docsearch/blob/2df2e1392fa80e5cc9cafac3437685331b9f07ec/packages/docsearch-react/src/NoResultsScreen.tsx#L7-L12
 type NoResultsScreenTranslations = Partial<{
   noResultsText: string
   suggestedQueryText: string
