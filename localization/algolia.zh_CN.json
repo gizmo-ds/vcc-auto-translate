@@ -26,7 +26,7 @@
     "searchByText": "搜索服务提供商",
     "noResultsText": "该关键词没有搜索结果",
     "suggestedQueryText": "尝试搜索",
-    "reportMissingResultsText": "Believe this query should return results?",
+    "reportMissingResultsText": "你认为该查询应该有结果？",
     "reportMissingResultsLinkText": "告诉我们。"
   }
 }
