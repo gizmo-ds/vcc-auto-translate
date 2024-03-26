@@ -1,15 +1,16 @@
 import { inject_function, injector } from './injector'
-import { get as kv_get, set as kv_set, createStore } from 'idb-keyval'
+import { get as kv_get, set as kv_set, createStore, UseStore } from 'idb-keyval'
 import { LoadingComponent } from './components/loading'
 
 import algolia_patch from './patch/algolia'
 import translate_patch from './patch/translate'
+import console_log_patch from './patch/console_log'
 
-const store = createStore('vcc_auto_translate', 'store')
-
-const patchs = [algolia_patch, translate_patch]
+const patchs = [algolia_patch, translate_patch, console_log_patch]
 
 async function main() {
+  const store = createStore('vcc_auto_translate', 'store')
+
   const index_script_file = document.getElementsByTagName('meta')['index-module'].content
   const patched_filename = index_script_file.replace(/\.js$/, '.patched.js')
   const local_patched_filename = await kv_get('patched-filename', store)
@@ -45,10 +46,10 @@ async function main() {
     p.after && (await p.after())
   }
 
-  load_patched_code(patched_code)
+  load_patched_code(store, patched_code)
 }
 
-async function load_patched_code(patched_code?: string) {
+async function load_patched_code(store: UseStore, patched_code?: string) {
   if (!patched_code) patched_code = await kv_get('patched-content', store)!
   const e = document.createElement('script')
   e.setAttribute('type', 'module')
