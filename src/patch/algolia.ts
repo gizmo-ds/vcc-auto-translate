@@ -13,35 +13,45 @@ interface Localization {
   translations: DocSearchTranslations
   placeholder: string
 }
+let supported_languages: Record<string, Localization> | undefined
 
-const fname = '__algolia_patch__'
-let localization: Localization | undefined
-
-function func(e: any, t: any) {
-  if (!e) return t
-  if (!(t.apiKey && t.appId && t.appId && t.placeholder)) return t
-
-  t.placeholder = localization?.placeholder
-  t.translations = localization
-  if (replace) {
-    t.apiKey = info.apiKey
-    t.appId = info.appId
-    t.indexName = info.indexName
+async function get_localization() {
+  if (supported_languages) return supported_languages[language] ?? supported_languages['en']
+  supported_languages = {
+    'zh-CN': (await import('@/localization/algolia.zh_CN.json')).default,
+    'zh-TW': (await import('@/localization/algolia.zh_TW.json')).default,
+    en: (await import('@/localization/algolia.en.json')).default,
   }
-  return t
+  return supported_languages![language] ?? supported_languages!['en']
 }
 
 const config: Config = {
   patch_jsx: {
-    fname,
+    fname: '__algolia_jsx_patch__',
     async after() {
-      const supported_languages = {
-        'zh-CN': (await import('@/localization/algolia.zh_CN.json')).default,
-        'zh-TW': (await import('@/localization/algolia.zh_TW.json')).default,
+      const localization = await get_localization()
+      globalThis['__algolia_jsx_patch__'] = (e: any, t: any) => {
+        if (!e) return t
+        if (!(t.apiKey && t.appId && t.appId && t.placeholder)) return t
+
+        t.placeholder = localization!.placeholder
+        if (replace) {
+          t.apiKey = info.apiKey
+          t.appId = info.appId
+          t.indexName = info.indexName
+        }
+        return t
       }
-      localization =
-        supported_languages[language] ?? (await import('@/localization/algolia.en.json')).default
-      globalThis[fname] = func
+    },
+  },
+  patch_createElement: {
+    fname: '__algolia_createElement_patch__',
+    async after() {
+      const localization = await get_localization()
+      globalThis['__algolia_createElement_patch__'] = (e: any, t: any, r: any) => {
+        if (t && Object.prototype.hasOwnProperty.call(t, 'translations'))
+          t.translations = localization?.translations ?? {}
+      }
     },
   },
 }

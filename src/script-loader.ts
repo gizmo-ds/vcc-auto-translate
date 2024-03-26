@@ -1,4 +1,4 @@
-import { injector_jsx } from './injector'
+import { inject_function, injector } from './injector'
 import { get as kv_get, set as kv_set, createStore } from 'idb-keyval'
 import { LoadingComponent } from './components/loading'
 
@@ -23,9 +23,13 @@ async function main() {
     u.pathname = index_script_file
     const code = await fetch(u.href).then((res) => res.text())
 
-    const inject_functions: string[] = []
-    patchs.forEach((p) => p.patch_jsx && inject_functions.push(p.patch_jsx.fname))
-    patched_code = await injector_jsx(code, inject_functions)
+    const inject_functions: inject_function[] = []
+    patchs.forEach((p) => {
+      if (p.patch_jsx) inject_functions.push({ name: p.patch_jsx.fname, type: 'jsx' })
+      if (p.patch_createElement)
+        inject_functions.push({ name: p.patch_createElement.fname, type: 'createElement' })
+    })
+    patched_code = await injector(code, inject_functions)
 
     kv_set('patched-filename', patched_filename, store)
     await kv_set('patched-content', patched_code, store)
@@ -35,7 +39,11 @@ async function main() {
     setTimeout(() => loading.remove(), 2000)
   }
 
-  for (const p of patchs) p.patch_jsx?.after && (await p.patch_jsx.after())
+  for (const p of patchs) {
+    p.patch_jsx?.after && (await p.patch_jsx.after())
+    p.patch_createElement?.after && (await p.patch_createElement.after())
+    p.after && (await p.after())
+  }
 
   load_patched_code(patched_code)
 }

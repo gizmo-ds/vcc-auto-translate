@@ -3,5 +3,9 @@ export interface Config {
     fname: string
     after?: () => Promise<void>
   }
-  [key: string]: unknown
+  patch_createElement?: {
+    fname: string
+    after?: () => Promise<void>
+  }
+  after?: () => Promise<void>
 }

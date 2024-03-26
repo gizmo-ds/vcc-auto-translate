@@ -2,12 +2,18 @@ import { FunctionDeclaration, Identifier } from '@babel/types'
 import { walkAST, babelParse } from 'ast-walker-scope'
 import { MagicString } from 'magic-string-ast'
 
-export async function injector_jsx(code: string, functions: string[]): Promise<string> {
+export interface inject_function {
+  name: string
+  type: 'jsx' | 'createElement'
+}
+
+export async function injector(code: string, functions: inject_function[]): Promise<string> {
   return new Promise<string>(async (resolve, reject) => {
     const ms = new MagicString(code)
     const ast = babelParse(code)
 
-    let jsx_func_name = ''
+    let jsx_func_name: string | undefined
+    let createElement_func_name: string | undefined
     let skip = false
     const funcs: FunctionDeclaration[] = []
     walkAST(ast, {
@@ -22,36 +28,60 @@ export async function injector_jsx(code: string, functions: string[]): Promise<s
           node.operator === '=' &&
           node.left.type === 'MemberExpression' &&
           node.left.property.type === 'Identifier' &&
-          node.right.type === 'Identifier' &&
-          node.left.property.name === 'jsxs'
+          node.right.type === 'Identifier'
         ) {
-          jsx_func_name = node.right.name
-          skip = true
+          switch (node.left.property.name) {
+            case 'jsxs':
+              jsx_func_name = node.right.name
+              break
+            case 'createElement':
+              createElement_func_name = node.right.name
+              break
+          }
+          if (jsx_func_name && createElement_func_name) skip = true
           return this.skip()
         }
       },
     })
 
-    if (!jsx_func_name) return reject(new Error('Cannot find jsx function'))
-    const jsx_func = funcs.find((f) => f.id!.name === jsx_func_name)
-    if (!jsx_func) return reject(new Error('Cannot find jsx function'))
-
-    skip = false
-    const params = jsx_func.params as Identifier[]
-    walkAST(jsx_func, {
-      enter(node) {
-        if (skip) return this.skip()
-        if (node.type === 'VariableDeclaration') {
-          for (const fname of functions)
-            ms.appendRight(
-              node.start!,
-              `${params[1].name}=${fname}(${params[0].name},${params[1].name});`
-            )
-          skip = true
-          return this.skip()
-        }
-      },
-    })
+    if (functions.findIndex((f) => f.type == 'jsx') > -1) {
+      skip = false
+      if (!jsx_func_name) return reject(new Error('Cannot find jsx function'))
+      const func = funcs.find((f) => f.id!.name === jsx_func_name)
+      if (!func) return reject(new Error('Cannot find jsx function'))
+      const params = func.params as Identifier[]
+      walkAST(func, {
+        enter(node) {
+          if (skip) return this.skip()
+          if (node.type === 'VariableDeclaration') {
+            for (const fn of functions)
+              fn.type == 'jsx' &&
+                ms.appendRight(node.start!, `${fn.name}(${params.map((p) => p.name).join(',')});`)
+            skip = true
+            return this.skip()
+          }
+        },
+      })
+    }
+    if (functions.findIndex((f) => f.type == 'createElement') > -1) {
+      skip = false
+      if (!createElement_func_name) return reject(new Error('Cannot find createElement function'))
+      const func = funcs.find((f) => f.id!.name === createElement_func_name)
+      if (!func) return reject(new Error('Cannot find createElement function'))
+      const params = func.params as Identifier[]
+      walkAST(func, {
+        enter(node) {
+          if (skip) return this.skip()
+          if (node.type === 'VariableDeclaration') {
+            for (const fn of functions)
+              fn.type == 'createElement' &&
+                ms.appendRight(node.start!, `${fn.name}(${params.map((p) => p.name).join(',')});`)
+            skip = true
+            return this.skip()
+          }
+        },
+      })
+    }
 
     resolve(ms.toString())
   })
