@@ -5,13 +5,13 @@ import cssModulesPlugin from 'esbuild-css-modules-plugin'
 const env_config = dotenv_config({ path: ['.env.local', '.env'] })
 
 build({
-  entryPoints: ['src/script-loader.ts'],
+  entryPoints: ['src/patch-loader.ts'],
   bundle: true,
   format: 'esm',
   platform: 'browser',
   target: 'es2017',
   minify: true,
-  outfile: 'build/script-loader.js',
+  outfile: 'build/patch-loader.js',
   metafile: true,
   jsx: 'automatic',
   define: env_config.parsed

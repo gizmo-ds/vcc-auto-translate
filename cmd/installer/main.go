@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	//go:embed script-loader.js
+	//go:embed patch-loader.js
 	scriptLoaderCode string
 
 	t = utils.T

@@ -6,11 +6,14 @@ build-injector:
 	@${pm} esbuild src/injector.ts --bundle --format=esm --platform=browser --target=es2017 --minify --outfile=docs/injector.min.js
 
 build-script-loader:
-	@${pm} esno scripts/build-script-loader.ts
+	make build-patch-loader
+
+build-patch-loader:
+	@${pm} esno scripts/build-patch-loader.ts
 	@rm -rf build/*.css
 
-build-installer: build-script-loader
-	@cp build/script-loader.js cmd/installer/script-loader.js
+build-installer: build-patch-loader
+	@cp build/patch-loader.js cmd/installer/patch-loader.js
 	@GOOS=windows CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o build/vcc-auto-translate-installer.exe cmd/installer/main.go
 
 sha256sum:
