@@ -1,4 +1,4 @@
-import { Config } from './patch'
+import { Config } from '@/types/patch'
 
 const trash_logs = [(args: any[]) => args && args.length > 0 && args[0] === 'got backend message']
 

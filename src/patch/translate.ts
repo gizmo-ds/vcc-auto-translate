@@ -1,6 +1,7 @@
 import { createStore, delMany as kv_del } from 'idb-keyval'
 import { supported_languages, language } from '../localization'
-import { Config } from './patch'
+import { Config } from '@/types/patch'
+import { DebugMode } from '../env'
 
 const fname = '__vcc_auto_translate__'
 const store = createStore('vcc_auto_translate', 'store')
@@ -15,6 +16,25 @@ const config: Config = {
       globalThis[fname] = translater.translate.bind(translater)
       globalThis[fname]['restore'] = () => kv_del(['patched-content', 'patched-filename'], store)
     },
+  },
+  async after() {
+    if (DebugMode) {
+      var originHistory = history.pushState
+      history.pushState = function () {
+        var rv = originHistory.apply(this, arguments)
+        var e = new Event('pushState')
+        //@ts-ignore
+        e.arguments = arguments
+        window.dispatchEvent(e)
+        return rv
+      }
+      window.addEventListener('pushState', function (e: Event) {
+        if ('arguments' in e) {
+          const args = e.arguments as IArguments
+          if (args.length === 3) console.log(args[2])
+        }
+      })
+    }
   },
 }
 
@@ -45,10 +65,13 @@ export class Translater {
       : {}
   }
 
-  translate(e: any, t: any) {
+  translate(e: any, t: any, r: any) {
     if (!this.localization) return t
     if (!e) return t
     const element_name = typeof e === 'string' ? e : e.displayName
+
+    // FIXME: https://github.com/gizmo-ds/vcc-auto-translate/issues/13
+    if (['Official', 'Curated', 'Local User Packages'].includes(t.children)) return t
 
     if (
       // 处理 Symbol(react.fragment)
@@ -65,7 +88,7 @@ export class Translater {
         (e) => e === element_name || `Styled(${e})` === element_name
       )
     ) {
-      if (element_name && process.env.DEBUG_MODE === 'true')
+      if (DebugMode && element_name)
         console.warn('not supported element:', `[${element_name}]`, t.children ?? t.placeholder)
       return t
     }

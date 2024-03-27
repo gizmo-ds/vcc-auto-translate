@@ -1,88 +1,70 @@
-import { FunctionDeclaration, Identifier } from '@babel/types'
+import { InjectFunction } from '@/types/injector'
+import { AssignmentExpression, MemberExpression } from '@babel/types'
 import { walkAST, babelParse } from 'ast-walker-scope'
 import { MagicString } from 'magic-string-ast'
 
-export interface inject_function {
-  name: string
-  type: 'jsx' | 'createElement'
-}
+const propertys = ['jsx', 'createElement']
 
-export async function injector(code: string, functions: inject_function[]): Promise<string> {
+export async function injector(code: string, funcs: InjectFunction[]): Promise<string> {
   return new Promise<string>(async (resolve, reject) => {
+    const filters: string[] = [...new Set(funcs.map((f) => f.type))].filter((n) =>
+      propertys.includes(n)
+    )
+    const nodes: Record<string, AssignmentExpression | undefined> = propertys.reduce((acc, key) => {
+      acc[key] = undefined
+      return acc
+    }, {})
+
     const ms = new MagicString(code)
     const ast = babelParse(code)
 
-    let jsx_func_name: string | undefined
-    let createElement_func_name: string | undefined
     let skip = false
-    const funcs: FunctionDeclaration[] = []
     walkAST(ast, {
       enter(node) {
         if (skip) return this.skip()
-        if (node.type === 'FunctionDeclaration' && node.id && node.params.length >= 2) {
-          funcs.push(node)
-          return this.skip()
-        }
-        if (
-          node.type === 'AssignmentExpression' &&
-          node.operator === '=' &&
-          node.left.type === 'MemberExpression' &&
-          node.left.property.type === 'Identifier' &&
-          node.right.type === 'Identifier'
-        ) {
-          switch (node.left.property.name) {
-            case 'jsxs':
-              jsx_func_name = node.right.name
-              break
-            case 'createElement':
-              createElement_func_name = node.right.name
-              break
+
+        if (filters.length > 0) {
+          if (
+            node.type === 'ExpressionStatement' &&
+            node.expression.type === 'AssignmentExpression' &&
+            node.expression.operator === '=' &&
+            node.expression.left.type === 'MemberExpression' &&
+            node.expression.left.property.type === 'Identifier' &&
+            node.expression.right.type === 'Identifier'
+          ) {
+            const name = node.expression.left.property.name
+            if (!filters.includes(name)) return this.skip()
+            nodes[name] = node.expression
+            if (propertys.every((n) => nodes[n] !== undefined)) skip = true
+            return this.skip()
           }
-          if (jsx_func_name && createElement_func_name) skip = true
-          return this.skip()
         }
       },
     })
 
-    if (functions.findIndex((f) => f.type == 'jsx') > -1) {
-      skip = false
-      if (!jsx_func_name) return reject(new Error('Cannot find jsx function'))
-      const func = funcs.find((f) => f.id!.name === jsx_func_name)
-      if (!func) return reject(new Error('Cannot find jsx function'))
-      const params = func.params as Identifier[]
-      walkAST(func, {
-        enter(node) {
-          if (skip) return this.skip()
-          if (node.type === 'VariableDeclaration') {
-            for (const fn of functions)
-              fn.type == 'jsx' &&
-                ms.appendRight(node.start!, `${fn.name}(${params.map((p) => p.name).join(',')});`)
-            skip = true
-            return this.skip()
-          }
-        },
-      })
-    }
-    if (functions.findIndex((f) => f.type == 'createElement') > -1) {
-      skip = false
-      if (!createElement_func_name) return reject(new Error('Cannot find createElement function'))
-      const func = funcs.find((f) => f.id!.name === createElement_func_name)
-      if (!func) return reject(new Error('Cannot find createElement function'))
-      const params = func.params as Identifier[]
-      walkAST(func, {
-        enter(node) {
-          if (skip) return this.skip()
-          if (node.type === 'VariableDeclaration') {
-            for (const fn of functions)
-              fn.type == 'createElement' &&
-                ms.appendRight(node.start!, `${fn.name}(${params.map((p) => p.name).join(',')});`)
-            skip = true
-            return this.skip()
-          }
-        },
-      })
+    for (const name of filters) {
+      funcs
+        .filter((f) => f.type === name)
+        .forEach((f) => {
+          const node = nodes[name]!
+          const obj = (node.left as MemberExpression).object
+          //@ts-ignore
+          const n = `${obj.name}.${node.left.property.name}`
+          ms.appendRight(node.right.end!, `;${n}=__vcc_function_proxy__(${n},${f.name})`)
+        })
     }
 
     resolve(ms.toString())
+  })
+}
+
+export function function_proxy(ofn: Function, fn1: Function, fn2: Function) {
+  return new Proxy(ofn, {
+    apply: function (target, thisArg, argumentsList) {
+      fn1 && fn1.apply(thisArg, argumentsList)
+      const result = target.apply(thisArg, argumentsList)
+      if (fn2) return fn2(result)
+      return result
+    },
   })
 }
