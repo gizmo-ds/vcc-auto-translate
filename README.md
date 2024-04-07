@@ -44,11 +44,14 @@ VCC(VRChat Creator Companion) 的翻译脚本, 用于自动翻译 VCC 的界面.
 如果你有安装`make`工具, 你只需要执行`make`命令即可完成编译, 你可以在`build`目录找到自动安装工具.  
 如果你不使用`make`工具的话可以参考[Makefile](./Makefile)文件进行手动编译.
 
-## 类似的项目
+## Related
 
-- [VRChat-Creator-Companion-zh-CN](https://github.com/Sonic853/VRChat-Creator-Companion-zh-CN)
+- [VRChat-Creator-Companion-zh-CN](https://github.com/Sonic853/VRChat-Creator-Companion-zh-CN) - This project was
+  inspired by this project.
+- [CreatorCompanionPatcher](https://github.com/Misaka-L/CreatorCompanionPatcher) - A patcher that can be used in
+  conjunction with this project to fix certain issues or behaviors in VRChat Creator Companion.
 
-## 贡献者
+## Contributors
 
 ![Contributors](https://contributors.aika.dev/gizmo-ds/vcc-auto-translate/contributors.svg?align=left)
 
