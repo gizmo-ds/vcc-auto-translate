@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:patch-loader": "esno scripts/build-patch-loader.ts"
   },
   "keywords": [],
   "author": {

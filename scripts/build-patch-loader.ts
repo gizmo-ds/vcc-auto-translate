@@ -2,6 +2,7 @@ import { config as dotenv_config } from 'dotenv'
 import { build as esbuild } from 'esbuild'
 import cssModulesPlugin from 'esbuild-css-modules-plugin'
 import { localization_hashs } from './localization_hashs'
+import { rmSync } from 'node:fs'
 
 const env_config = dotenv_config({ path: ['.env.local', '.env'] })
 
@@ -15,7 +16,7 @@ async function build() {
   define['vcc_auto_translate.localization_hashs'] =
     env_config.parsed?.EMBED_LANGUAGES === 'true' ? await localization_hashs() : '{}'
 
-  esbuild({
+  await esbuild({
     entryPoints: ['src/patch-loader.ts'],
     bundle: true,
     format: 'esm',
@@ -32,7 +33,8 @@ async function build() {
         inject: true,
       }),
     ],
-  }).catch(() => process.exit(1))
+  })
+  rmSync('build/patch-loader.css')
 }
 
 build()

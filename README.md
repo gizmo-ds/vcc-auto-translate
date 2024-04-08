@@ -41,8 +41,17 @@ VCC(VRChat Creator Companion) 的翻译脚本, 用于自动翻译 VCC 的界面.
 - [make](https://duckduckgo.com/?q=make+install) (可选)
 - [upx](https://github.com/upx/upx/releases/latest) (可选)
 
-如果你有安装`make`工具, 你只需要执行`make`命令即可完成编译, 你可以在`build`目录找到自动安装工具.  
-如果你不使用`make`工具的话可以参考[Makefile](./Makefile)文件进行手动编译.
+如果你有安装`make`工具, 你只需要执行`make`命令即可完成编译, 你可以在`build`目录找到自动安装工具.
+
+如果你不使用`make`工具, 你可以执行以下命令: (以 PowerShell + pnpm 为例)
+
+```shell
+pnpm install
+pnpm run build:patch-loader
+Copy-Item build/patch-loader.js cmd/installer/patch-loader.js
+$env:CGO_ENABLED=0
+go build -trimpath -ldflags "-s -w" -o build/vcc-auto-translate-installer.exe cmd/installer/main.go
+```
 
 ## Related
 
