@@ -1,0 +1,16 @@
+[package]
+name = "vcc-auto-translate-installer"
+version = "1.6.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.81"
+scopeguard = "1.2.0"
+winreg = "0.52.0"
+
+[profile.release]
+lto = true
+opt-level = 'z'
+strip = true
+codegen-units = 1
+panic = "abort"
