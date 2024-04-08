@@ -19,7 +19,7 @@ async function main() {
 
   if (!local_patched_filename || local_patched_filename !== patched_filename) {
     const loading = LoadingComponent({ text: '正在应用翻译补丁...' })
-    document.querySelector('#root')?.before(loading)
+    document.querySelector('#root')?.before(loading.component)
 
     const u = new URL(location.origin)
     u.pathname = index_script_file
@@ -37,9 +37,9 @@ async function main() {
     kv_set('patched-filename', patched_filename, store)
     await kv_set('patched-content', patched_code, store)
 
-    loading.querySelector('fluent-progress')?.remove()
-    loading.querySelector<HTMLElement>('p#text')!.innerText = '翻译补丁已应用 🎉'
-    setTimeout(() => loading.remove(), 2000)
+    loading.hide_progress()
+    loading.set_text('翻译补丁已应用 🎉')
+    setTimeout(() => loading.component.remove(), 2000)
   }
 
   for (const p of patchs) {

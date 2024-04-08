@@ -14,16 +14,27 @@ export function LoadingComponent(props: { text: string }) {
       break
     case 'Light':
       color_scheme = styles.light
+      break
     default:
       break
   }
-  return (
-    <div class={[styles.patchLoadingCover, color_scheme].join(' ')}>
-      <p class={styles.patchLoadingText} id="text">
-        {props.text}
-      </p>
-      {/* @ts-ignore */}
-      <fluent-progress class={styles.patchLoadingProgress} />
-    </div>
-  )
+  return {
+    component: (
+      <div class={[styles.patchLoadingCover, color_scheme].join(' ')}>
+        <p class={styles.patchLoadingText} id="text">
+          {props.text}
+        </p>
+        {/* @ts-ignore */}
+        <fluent-progress class={styles.patchLoadingProgress} />
+      </div>
+    ),
+    set_text(text: string) {
+      const text_elements = document.getElementsByClassName(styles.patchLoadingText)
+      if (text_elements) for (const e of text_elements) e.innerHTML = text
+    },
+    hide_progress() {
+      const progress_elements = document.getElementsByClassName(styles.patchLoadingProgress)
+      if (progress_elements) for (const e of progress_elements) e.remove()
+    },
+  }
 }
