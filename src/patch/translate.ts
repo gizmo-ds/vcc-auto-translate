@@ -1,16 +1,38 @@
-import { createStore, delMany as kv_del } from 'idb-keyval'
-import { supported_languages, language } from '../localization'
+import { delMany as kv_del, set as kv_set, get as kv_get } from 'idb-keyval'
+import { user_language } from '../language'
 import { Config } from '@/types/patch'
-import { DebugMode } from '../env'
+import { Language } from '@/types/patch/translate'
+import { DebugMode, localization_hashs } from '../env'
+import { store } from '../store'
+
+const embedded_languages: Language[] =
+  process.env.EMBED_LANGUAGES === 'true'
+    ? [
+        {
+          name: '简体中文',
+          language: 'zh-CN',
+          content: import('@/localization/zh_CN.json'),
+          hash: localization_hashs['zh_CN.json'],
+        },
+        {
+          name: '正體中文',
+          language: 'zh-TW',
+          content: import('@/localization/zh_TW.json'),
+          hash: localization_hashs['zh_TW.json'],
+        },
+      ]
+    : []
 
 const fname = '__vcc_auto_translate__'
-const store = createStore('vcc_auto_translate', 'store')
-
 const config: Config = {
   patch_jsx: {
     fname,
+    async before() {
+      await kv_del(['vcc_languages'], store)
+    },
     async after() {
-      const localization = supported_languages[language] ?? {}
+      await load_languages()
+      const localization = (await vcc_localization())?.content ?? {}
 
       const translater = new Translater(localization)
       globalThis[fname] = translater.translate.bind(translater)
@@ -129,4 +151,18 @@ export class Translater {
     const text = this.localization[s]
     return [text !== undefined, text ?? s]
   }
+}
+
+let vcc_languages: Language[] | undefined
+async function load_languages() {
+  if (vcc_languages) return
+  vcc_languages = await kv_get('vcc_languages', store).then((langs) => langs as Language[])
+  if (vcc_languages) return
+  for (const lang of embedded_languages) lang.content = (await lang.content).default
+  await kv_set('vcc_languages', embedded_languages, store)
+  vcc_languages = embedded_languages
+}
+export async function vcc_localization(): Promise<Language | undefined> {
+  const _user_language = await user_language()
+  return vcc_languages?.find((v) => v.language === _user_language)
 }
