@@ -18,6 +18,11 @@ async function main() {
   globalThis['__vcc_function_proxy__'] = function_proxy
 
   if (!local_patched_filename || local_patched_filename !== patched_filename) {
+    for (const p of patchs) {
+      for (const key of Object.keys(p)) p[key].before && (await p[key].before())
+      p.before && (await p.before())
+    }
+
     const loading = LoadingComponent({ text: '正在应用翻译补丁...' })
     document.querySelector('#root')?.before(loading.component)
 
@@ -43,7 +48,7 @@ async function main() {
   }
 
   for (const p of patchs) {
-    Object.keys(p).forEach((key) => p[key].after && p[key].after())
+    for (const key of Object.keys(p)) p[key].after && (await p[key].after())
     p.after && (await p.after())
   }
 
