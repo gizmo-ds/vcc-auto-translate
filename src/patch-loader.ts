@@ -10,7 +10,9 @@ import { store } from './store'
 const patchs = [algolia_patch, translate_patch, console_log_patch]
 
 async function main() {
-  const index_script_file = document.getElementsByTagName('meta')['index-module'].content
+  const index_script_file =
+    document.getElementsByTagName('meta')['index-module']?.content ??
+    document.querySelector('script[type="module"][src^="/assets/index-"]')?.getAttribute('src')
   const patched_filename = index_script_file.replace(/\.js$/, '.patched.js')
   const local_patched_filename = await kv_get('patched-filename', store)
   let patched_code: string | undefined
@@ -35,7 +37,6 @@ async function main() {
       if (p.patch_jsx) inject_functions.push({ name: p.patch_jsx.fname, type: 'jsx' })
       if (p.patch_createElement)
         inject_functions.push({ name: p.patch_createElement.fname, type: 'createElement' })
-      // if (p.patch_useMemo) inject_functions.push({ name: p.patch_useMemo.fname, type: 'useMemo' })
     })
     patched_code = await injector(code, inject_functions)
 
