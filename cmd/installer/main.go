@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	_ "embed"
+	"flag"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -17,7 +18,8 @@ var (
 	//go:embed patch-loader.js
 	scriptLoaderCode string
 
-	t = utils.T
+	t         = utils.T
+	dontPause = false
 )
 
 const (
@@ -35,6 +37,9 @@ type stackTracer interface {
 
 func main() {
 	fmt.Println(t("banner"))
+
+	flag.BoolVar(&dontPause, "dont-pause", false, "Don't pause after installation")
+	flag.Parse()
 
 	var err error
 	var vccInstallPath string
@@ -107,6 +112,9 @@ func installer(vccPath string) error {
 }
 
 func pause() {
+	if dontPause {
+		return
+	}
 	fmt.Println(t("pause"))
 	_, _ = fmt.Scanln()
 }
