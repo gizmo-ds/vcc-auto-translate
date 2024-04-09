@@ -4,9 +4,10 @@ version = "1.6.0"
 edition = "2021"
 
 [dependencies]
-anyhow = "1.0.81"
-scopeguard = "1.2.0"
-winreg = "0.52.0"
+anyhow = { version = "1.0.81" }
+regex-automata = { version = "0.4.6", default-features = false, features = ["std", "meta"] }
+scopeguard = { version = "1.2.0", default-features = false }
+winreg = { version = "0.52.0" }
 
 [profile.release]
 lto = true

@@ -10,13 +10,36 @@ use anyhow::Context;
 mod vcc;
 
 fn main() {
+    let args: Vec<String> = std::env::args().skip(1).collect();
+    let mut pause = true;
+    let mut installer_type = "meta".to_string();
+
+    // Parse arguments
+    for arg in args {
+        match arg.split('=').collect::<Vec<&str>>().as_slice() {
+            ["--dont-pause"] => {
+                pause = false;
+            }
+            ["--type", value] => {
+                installer_type = value.to_string();
+            }
+            _ => return println!("Invalid argument: {}", arg),
+        }
+    }
+    let installer = match installer_type.as_str() {
+        "csp" => vcc::installer_csp,
+        "meta" => vcc::installer_meta,
+        t => return println!("Invalid installer type: {}", t),
+    };
+
+    // Pause before exit
     defer! {
+        if !pause {return;}
         println!("\nPress Enter to exit...");
         let _ = io::stdin().lock().lines().next();
     }
 
     println!(
-        "{}",
         r#"VCC Auto Translate installer
 
 This installer will add the VCC Auto Translate script to your VCC installation.
@@ -29,7 +52,7 @@ Source code: https://github.com/gizmo-ds/vcc-auto-translate
         Err(e) => return println!("Error: {:?}", e),
     };
 
-    println!("VCC Install Path: {}", install_path);
+    println!("VCC Install Path: {}\n", install_path);
 
     let dist_path = Path::new(&install_path).join("WebApp").join("Dist");
     if !dist_path.exists() {
@@ -69,7 +92,7 @@ Source code: https://github.com/gizmo-ds/vcc-auto-translate
         Err(e) => return println!("Error: {:?}", e),
     }
 
-    index_content = match vcc::installer_csp(index_content) {
+    index_content = match installer(index_content) {
         Ok(content) => content,
         Err(e) => return println!("Error: {:?}", e),
     };
