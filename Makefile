@@ -13,8 +13,9 @@ build-patch-loader:
 	@rm -rf build/*.css
 
 build-installer: build-patch-loader
-	@cp build/patch-loader.js cmd/installer/patch-loader.js
-	@GOOS=windows CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o build/vcc-auto-translate-installer.exe cmd/installer/main.go
+	@cp build/patch-loader.js installer-src/assets/patch-loader.js
+	@cd installer-src && cargo build --release --locked --target x86_64-pc-windows-gnu
+	@cp installer-src/target/x86_64-pc-windows-gnu/release/vcc-auto-translate-installer.exe build/vcc-auto-translate-installer.exe
 
 sha256sum:
 	@rm -f build/*.sha256; for file in build/*; do sha256sum $$file > $$file.sha256; done

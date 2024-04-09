@@ -36,8 +36,8 @@ VCC(VRChat Creator Companion) 的翻译脚本, 用于自动翻译 VCC 的界面.
 
 环境要求:
 
-- [Go 1.20+](https://go.dev/doc/install)
-- [node + package manager](https://nodejs.org/) / [bun](https://bun.sh/)
+- [Rust](https://www.rust-lang.org/)
+- [Node.js + package manager](https://nodejs.org/) / [bun](https://bun.sh/)
 - [make](https://duckduckgo.com/?q=make+install) (可选)
 - [upx](https://github.com/upx/upx/releases/latest) (可选)
 
@@ -48,10 +48,12 @@ VCC(VRChat Creator Companion) 的翻译脚本, 用于自动翻译 VCC 的界面.
 ```shell
 pnpm install
 pnpm run build:patch-loader
-Copy-Item build/patch-loader.js cmd/installer/patch-loader.js
-$env:CGO_ENABLED=0
-go build -trimpath -ldflags "-s -w" -o build/vcc-auto-translate-installer.exe cmd/installer/main.go
+Copy-Item build/patch-loader.js installer-src/assets/patch-loader.js
+cd installer-src
+cargo build --release --locked
 ```
+
+编译完成后, 你可以在`installer-src/target/release`目录找到编译好的自动安装工具.
 
 ## Related
 
