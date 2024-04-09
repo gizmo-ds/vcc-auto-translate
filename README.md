@@ -50,7 +50,7 @@ pnpm install
 pnpm run build:patch-loader
 Copy-Item build/patch-loader.js installer-src/assets/patch-loader.js
 cd installer-src
-cargo build --release
+cargo build --release --locked
 ```
 
 编译完成后, 你可以在`installer-src/target/release`目录找到编译好的自动安装工具.
