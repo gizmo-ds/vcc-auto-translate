@@ -28,5 +28,8 @@ clean:
 	@rm -f cmd/installer/localization/*.json
 	@rm -rf build
 
-dev: clean build-installer
-	build/vcc-auto-translate-installer.exe --no-pause
+dev: clean build-patch-loader
+	@rm -f installer-src/assets/patch-loader.js
+	@cp build/patch-loader.js installer-src/assets/patch-loader.js
+	@cd installer-src && cargo build --locked --target x86_64-pc-windows-gnu
+	installer-src/target/x86_64-pc-windows-gnu/debug/vcc-auto-translate-installer.exe --no-pause
