@@ -14,7 +14,7 @@ build-patch-loader:
 
 build-installer: build-patch-loader
 	@cp build/patch-loader.js installer-src/assets/patch-loader.js
-	@cd installer-src && cargo build --release --target x86_64-pc-windows-gnu
+	@cd installer-src && cargo build --release --locked --target x86_64-pc-windows-gnu
 	@cp installer-src/target/x86_64-pc-windows-gnu/release/vcc-auto-translate-installer.exe build/vcc-auto-translate-installer.exe
 
 sha256sum:
