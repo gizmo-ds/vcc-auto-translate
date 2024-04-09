@@ -11,6 +11,11 @@ pub fn install_path() -> Result<String> {
     Ok(install_path)
 }
 
+#[cfg(not(target_os = "windows"))]
+pub fn install_path() -> Result<String> {
+    Ok("./".to_string())
+}
+
 pub fn patch_loader() -> Result<String> {
     let script_content = include_bytes!("../assets/patch-loader.js");
     let script_content = std::str::from_utf8(script_content.as_ref())

@@ -7,6 +7,8 @@ edition = "2021"
 anyhow = { version = "1.0.81" }
 regex-automata = { version = "0.4.6", default-features = false, features = ["std", "meta"] }
 scopeguard = { version = "1.2.0", default-features = false }
+
+[target.'cfg(windows)'.dependencies]
 winreg = { version = "0.52.0" }
 
 [profile.release]
