@@ -47,14 +47,22 @@ Source code: https://github.com/gizmo-ds/vcc-auto-translate
 "#
     );
 
-    let install_path = match vcc::install_path() {
+    let mut vcc_path = match Path::new("./").canonicalize() {
         Ok(path) => path,
         Err(e) => return println!("Error: {:?}", e),
     };
+    if !vcc_path.join("CreatorCompanion.exe").exists()
+        && !vcc_path.join("CreatorCompanionBeta.exe").exists()
+    {
+        let install_path_str = match vcc::install_path() {
+            Ok(path) => path,
+            Err(e) => return println!("Error: {:?}", e),
+        };
+        vcc_path = Path::new(&install_path_str).to_path_buf();
+    }
+    println!("VCC Install Path: {}\n", vcc_path.display());
 
-    println!("VCC Install Path: {}\n", install_path);
-
-    let dist_path = Path::new(&install_path).join("WebApp").join("Dist");
+    let dist_path = vcc_path.join("WebApp").join("Dist");
     if !dist_path.exists() {
         return println!("Error: Dist path does not exist");
     }
