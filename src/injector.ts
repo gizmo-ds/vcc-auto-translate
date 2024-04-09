@@ -10,7 +10,8 @@ export async function injector(code: string, funcs: InjectFunction[]): Promise<s
     const filters: string[] = [...new Set(funcs.map((f) => f.type))].filter((n) =>
       propertys.includes(n)
     )
-    const nodes: Record<string, AssignmentExpression | undefined> = propertys.reduce((acc, key) => {
+    if (filters.length === 0) return resolve(code)
+    const nodes: Record<string, AssignmentExpression | undefined> = filters.reduce((acc, key) => {
       acc[key] = undefined
       return acc
     }, {})
@@ -35,6 +36,7 @@ export async function injector(code: string, funcs: InjectFunction[]): Promise<s
             const name = node.expression.left.property.name
             if (!filters.includes(name)) return this.skip()
             nodes[name] = node.expression
+            if (Object.keys(nodes).every((n) => nodes[n] !== undefined)) skip = true
             if (propertys.every((n) => nodes[n] !== undefined)) skip = true
             return this.skip()
           }
