@@ -7,6 +7,7 @@ use std::path::Path;
 
 use anyhow::Context;
 
+mod utils;
 mod vcc;
 
 fn main() {
@@ -60,7 +61,10 @@ Source code: https://github.com/gizmo-ds/vcc-auto-translate
         };
         vcc_path = Path::new(&install_path_str).to_path_buf();
     }
-    println!("VCC Install Path: {}\n", vcc_path.display());
+    println!(
+        "VCC Install Path: {}\n",
+        utils::verbatim_path_display(&vcc_path)
+    );
 
     let dist_path = vcc_path.join("WebApp").join("Dist");
     if !dist_path.exists() {
