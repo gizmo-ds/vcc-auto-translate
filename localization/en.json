@@ -358,5 +358,6 @@
   "Hey you, you're cool": "Hey you, you're cool",
   "Checking Package Availability": "Checking Package Availability",
   "Packages are being added to the project": "Packages are being added to the project",
-  "Starting project creation...": "Starting project creation..."
+  "Starting project creation...": "Starting project creation...",
+  "A folder with the same name already exists": "A folder with the same name already exists"
 }
