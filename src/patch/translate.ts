@@ -90,10 +90,13 @@ export class Translater {
   translate(e: any, t: any, r: any) {
     if (!this.localization) return t
     if (!e) return t
-    const element_name = typeof e === 'string' ? e : e.displayName
+    const element_name: string = typeof e === 'string' ? e : e.displayName
 
     // FIXME: https://github.com/gizmo-ds/vcc-auto-translate/issues/13
     if (['Official', 'Curated', 'Local User Packages'].includes(t.children)) return t
+
+    // 仅翻译标题 New Project
+    if (t.children === 'New Project' && t && t.className) return t
 
     if (
       // 处理 Symbol(react.fragment)
@@ -112,6 +115,18 @@ export class Translater {
     ) {
       if (DebugMode && element_name)
         console.warn('not supported element:', `[${element_name}]`, t.children ?? t.placeholder)
+      return t
+    }
+
+    // 翻译 Tooltip 的 description
+    if (
+      element_name &&
+      t &&
+      element_name.includes('Tooltip') &&
+      t?.relationship === 'description' &&
+      t.content
+    ) {
+      t.content = this.tr(t.content)[1]
       return t
     }
 
