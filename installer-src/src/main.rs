@@ -18,7 +18,7 @@ fn main() {
     // Parse arguments
     for arg in args {
         match arg.split('=').collect::<Vec<&str>>().as_slice() {
-            ["--dont-pause"] => {
+            ["--no-pause"] => {
                 pause = false;
             }
             ["--type", value] => {

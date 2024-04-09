@@ -29,4 +29,4 @@ clean:
 	@rm -rf build
 
 dev: clean build-installer
-	build/vcc-auto-translate-installer.exe --dont-pause
+	build/vcc-auto-translate-installer.exe --no-pause
