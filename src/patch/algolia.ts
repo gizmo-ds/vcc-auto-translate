@@ -1,10 +1,8 @@
 import { del as kv_del, set as kv_set, get as kv_get } from 'idb-keyval'
-import { user_language } from '../language'
-import { store } from '../store'
 import { Config } from '@/types/patch'
 import { Localization } from '@/types/patch/algolia'
 import { Language } from '@/types/patch/translate'
-import { localization_hashs } from '../env'
+import { localization_hashs, store, user_language } from '../helpers'
 
 const embedded_languages: Language[] =
   process.env.EMBED_LANGUAGES === 'true'

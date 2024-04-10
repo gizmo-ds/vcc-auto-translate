@@ -5,7 +5,7 @@ import { injector, function_proxy } from './injector'
 import algolia_patch from './patch/algolia'
 import translate_patch from './patch/translate'
 import console_log_patch from './patch/console_log'
-import { store } from './store'
+import { store } from './helpers'
 
 const patchs = [algolia_patch, translate_patch, console_log_patch]
 

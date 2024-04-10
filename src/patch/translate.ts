@@ -1,9 +1,7 @@
 import { delMany as kv_del, set as kv_set, get as kv_get } from 'idb-keyval'
-import { user_language } from '../language'
 import { Config } from '@/types/patch'
 import { Language } from '@/types/patch/translate'
-import { DebugMode, localization_hashs } from '../env'
-import { store } from '../store'
+import { DebugMode, localization_hashs, user_language, debug_log, store } from '../helpers'
 
 const embedded_languages: Language[] =
   process.env.EMBED_LANGUAGES === 'true'
@@ -53,7 +51,7 @@ const config: Config = {
       window.addEventListener('pushState', function (e: Event) {
         if ('arguments' in e) {
           const args = e.arguments as IArguments
-          if (args.length === 3) console.log(args[2])
+          if (args.length === 3) debug_log(args[2])
         }
       })
     }
@@ -63,112 +61,160 @@ const config: Config = {
 export default config
 
 export class Translater {
-  localization: Record<string, string>
-  localization_matcher: any
-  // prettier-ignore
-  supported_element_name = [
-    'Button', 'SplitButton', 'ToggleButton', 'DataGridHeaderCell', 'TableHeaderCell', 'MenuItem', 'Body1', 'Title1', 'Title3',
-    'Subtitle2', 'Input', 'DialogTitle', 'DialogContent', 'Caption1', 'Badge', 'Subtitle1', 'Label', 'Option', 'Tab', 'Dropdown',
-    'Link', 'ToastBody', 'Checkbox', 'Alert', 'TableCellLayout', 'OptionGroup', 'MessageBarBody', 'MenuItem', 'Tooltip',
+  private localization: Record<string, string>
+  private all_matcher: Record<string, [RegExp, string]> = {}
 
-    'li', 'span', 'label', 'div', 'b', 'input', 'p', 'code', 'i'
-  ]
+  // 保存翻译完成后的字符串, 防止重复翻译. 初始值为需要跳过翻译的字符串
+  private translated: Set<string> = new Set(
+    // prettier-ignore
+    [
+      // FIXME: https://github.com/gizmo-ds/vcc-auto-translate/issues/13
+      'Official', 'Curated', 'Local User Packages',
+      // 一些不需要翻译的字符串
+      ' · ', '2022.3.6f1', '2019.4.31f1', 'v', '.', '2022', 'settings.json',
+      'VRChat', 'Udon', 'Discord', 'URL', 'assets.vrchat.com',
+      'https://assets.vrchat.com/sdk/vrc-official.json', 'https://assets.vrchat.com/sdk/vrc-curated.json',
+      // 由 algolia patch 翻译的字符串
+      'Search the VRChat docs'
+    ]
+  )
 
   constructor(localization: Record<string, string>) {
     this.localization = localization
-    this.localization_matcher = this.localization
-      ? Object.keys(this.localization)
-          .filter((k) => k.indexOf('[matcher]') === 0)
-          .reduce((acc, key) => {
-            const k = key.replace('[matcher]', '')
-            acc[k] = [new RegExp(k), this.localization[key]]
-            return acc
-          }, {})
-      : {}
+    if (localization)
+      this.all_matcher = Object.keys(localization)
+        .filter((k) => k.indexOf('[matcher]') === 0)
+        .reduce<Record<string, [RegExp, string]>>((acc, key) => {
+          const k = key.replace('[matcher]', '')
+          acc[k] = [new RegExp(k), localization[key]]
+          return acc
+        }, {})
+  }
+
+  private t(item: any) {
+    if (!item || typeof item !== 'string') return item
+    if (this.translated.has(item)) return item
+
+    const tr = this.localization[item]
+    if (tr) return this.translated.add(tr) && tr
+
+    for (const k of Object.keys(this.all_matcher)) {
+      const matcher = this.all_matcher[k][0]
+      const m = item.match(matcher)
+      if (!m) continue
+      let rt = this.all_matcher[k][1]
+      for (let i = 0; i < m.length; i++) rt = rt.replaceAll(`$${i}`, m[i])
+      return this.translated.add(rt) && rt
+    }
+    return this._translation_missing(item)
+  }
+
+  // 将翻译结果中的格式化字符串还原为数组
+  private _rebuild_array(t_str: string, arr: any[]) {
+    const regex = /\{\{(\d+):([^\}]+)\}\}/g
+    let match: RegExpExecArray | null
+    const rebuilt_arr: any[] = []
+    let last_index = 0
+
+    while ((match = regex.exec(t_str)) !== null) {
+      const [_, index, content] = match
+      const start = match.index
+      const end = regex.lastIndex
+
+      if (start > last_index) rebuilt_arr.push(t_str.substring(last_index, start))
+
+      const original_object = arr[parseInt(index)]
+      rebuilt_arr.push({
+        ...original_object,
+        props: { ...original_object.props, children: content },
+      })
+
+      last_index = end
+    }
+
+    if (last_index < t_str.length) rebuilt_arr.push(t_str.substring(last_index))
+    return rebuilt_arr
+  }
+
+  // NOTE: 为大段文字但中间有不同格式的数据做处理
+  private rebuild_array(t: any[]) {
+    const allowed_types = ['b']
+    const array_checker = (item: any) => {
+      if (typeof item === 'string') return true
+      if (!item?.type) return false
+      return allowed_types.includes(item?.type) && typeof item?.props?.children === 'string'
+    }
+    if (!t.every(array_checker)) return t.map((i) => this._translate(i))
+
+    const translated_regex = /\{\{\d+:[^\}]+\}\}/g
+    const special = this._convert2special(t)
+
+    // 如果已经翻译过，直接返回
+    if (this.translated.has(special.replace(translated_regex, '{{-}}'))) return t
+
+    const t_str = this.localization[special]
+    // 如果翻译结果不存在，返回翻译缺失
+    if (!t_str) return this._translation_missing(t, special)
+    // 如果翻译结果为非格式化字符串，直接返回
+    if (!t_str.includes('{{1:')) return t.map((i) => this._translate(i))
+
+    this.translated.add(t_str.replace(translated_regex, '{{-}}'))
+    return this._rebuild_array(t_str, t)
+  }
+
+  private _translation_missing(t: any, str?: string): any {
+    if (DebugMode) debug_log(`Translation missing for: [${str ?? t}]`)
+    return t
+  }
+
+  private _convert2special(arr: any[]) {
+    let special_str = ''
+    arr.forEach((item, index) => {
+      if (typeof item === 'object') special_str += `{{${index}:${item.props.children}}}`
+      else special_str += item
+    })
+    return special_str
+  }
+
+  private _translate(t: any, element_name?: string): any {
+    if (!t) return t
+
+    // 处理 Array
+    if (Array.isArray(t)) return this.rebuild_array(t)
+    // 处理 String
+    if (typeof t === 'string') return this.t(t)
+    // 处理 Object
+    if (typeof t === 'object') {
+      for (const tk of Object.keys(t)) {
+        if (['content', 'title', 'placeholder', 'label', 'props'].includes(tk))
+          t[tk] = this._translate(t[tk], t.type)
+      }
+    }
+
+    // 单独处理 children
+    if (t.children) {
+      // NOTE: 忽略不需要翻译的 New Project 标题
+      if (t.children === 'New Project' && (t.className || element_name === 'b')) return t
+
+      t.children = this._translate(t.children)
+    }
+    return t
   }
 
   translate(e: any, t: any, r: any) {
     if (!this.localization) return t
     if (!e) return t
+
     const element_name: string = typeof e === 'string' ? e : e.displayName
 
-    /* 一些特例 */
-    // 翻译 Tooltip 的 description
-    if (
-      element_name &&
-      t &&
-      element_name.includes('Tooltip') &&
-      ['description', 'label'].includes(t?.relationship) &&
-      t.content
-    ) {
-      t.content = this.localization[t.content] ?? t.content
-      return t
-    }
-    // 仅翻译标题 New Project
-    if (t && t?.children === 'New Project' && (t.className || element_name === 'b')) return t
-    // FIXME: https://github.com/gizmo-ds/vcc-auto-translate/issues/13
-    if (['Official', 'Curated', 'Local User Packages'].includes(t.children)) return t
-    // 单独处理 Dropdown 的 value. 可能会有问题, 但是暂时没发现
-    if (element_name === 'Dropdown' && t && t.value) {
-      t.value = this.localization[t.value] ?? t.value
-      return t
-    }
-
-    if (
-      // 处理 Symbol(react.fragment)
-      typeof e === 'symbol' &&
-      e.toString() === 'Symbol(react.fragment)' &&
-      t.children
-    )
-      t.children = t.children.map((item: any) =>
-        typeof item === 'string' ? this.localization[item] ?? item : item
-      )
-    else if (
-      // 忽略不受支持的 Element
-      !this.supported_element_name.find(
-        (e) => e === element_name || `Styled(${e})` === element_name
-      )
-    ) {
-      if (DebugMode && element_name)
-        console.warn('not supported element:', `[${element_name}]`, t.children ?? t.placeholder)
-      return t
-    }
-
-    var children_translated = false
-    for (const k of ['children', 'placeholder', 'title', 'label']) {
-      if (!t[k]) continue
-      if (typeof t[k] === 'string') {
-        const r = this.tr(t[k])
-        //@ts-ignore
-        if (!children_translated) children_translated = k === 'children' && r[0]
-        t[k] = r[1]
-      }
-      if (Array.isArray(t[k]))
-        t[k] = t[k].map((e: any) => (typeof e === 'string' ? this.tr(e)[1] : e))
-    }
-    // 如果 children 没有被翻译的话, 尝试使用匹配器进行翻译
-    if (t.children && typeof t.children === 'string' && !children_translated)
-      for (const k of Object.keys(this.localization_matcher)) {
-        const matcher = this.localization_matcher[k][0]
-        const m = t.children.match(matcher)
-        if (!m) continue
-        let rt = this.localization_matcher[k][1]
-        for (let i = 0; i < m.length; i++) rt = rt.replaceAll(`$${i}`, m[i])
-        t.children = rt
-      }
-
     /* 样式优化 */
-    // 修复 Projects 标题的换行问题
-    if (element_name == 'Title1' && t.children === this.localization['Projects'])
+    // NOTE: 修复 Projects 标题的换行问题
+    if (element_name == 'Title1' && t.children === 'Projects')
       t.style = t.style
         ? Object.assign(t.style, { whiteSpace: 'nowrap' })
         : { whiteSpace: 'nowrap' }
-    return t
-  }
 
-  tr(s: string) {
-    const text = this.localization[s]
-    return [text !== undefined, text ?? s]
+    return this._translate(t, element_name)
   }
 }
 

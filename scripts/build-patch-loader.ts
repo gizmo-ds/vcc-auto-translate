@@ -21,7 +21,7 @@ async function build() {
     bundle: true,
     format: 'esm',
     platform: 'browser',
-    target: 'es2017',
+    target: 'es2022',
     minify: true,
     outfile: 'build/patch-loader.js',
     metafile: true,
