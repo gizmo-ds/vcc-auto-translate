@@ -358,5 +358,11 @@
   "Hey you, you're cool": "嘿！你个酷盖！",
   "Checking Package Availability": "检查包可用性",
   "Packages are being added to the project": "正在向项目添加包",
-  "Starting project creation...": "正在开始项目创建..."
+  "Starting project creation...": "正在开始项目创建...",
+  "A folder with the same name already exists": "A folder with the same name already exists",
+  "A good starting point for a new VRChat World": "A good starting point for a new VRChat World",
+  "A good starting point for a new VRChat Avatar": "A good starting point for a new VRChat Avatar",
+  "This will {{1:delete}} all your {{3:Beta}} settings and data, starting from scratch": "This will delete all your Beta settings and data, starting from scratch",
+  "You are using a {{1:Beta}} build of the Creator Companion, it is intended for testing purposes and can be unstable.": "你正在使用创作者助手的{{1:测试}}版本，此版本是以测试为用途构建的，可能存在会不稳定。",
+  "This will {{1:overwrite}} your {{3:Beta}} settings with your {{5:Main}} settings and data": "This will overwrite your Beta settings with your Main settings and data"
 }
