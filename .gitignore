@@ -2,6 +2,7 @@
 node_modules
 build
 test-data
+.env
 .env.local
 .vscode/*
 !.vscode/extensions.json
