@@ -313,8 +313,6 @@
   "Learn how to upgrade projects from Unity 2019 to Unity 2022.": "Learn how to upgrade projects from Unity 2019 to Unity 2022.",
   "VRC Quick Launcher": "VRC Quick Launcher",
   "This tool helps you launch multiple profiles in the same VRChat instance, while also providing an interface to modify the debug options.": "This tool helps you launch multiple profiles in the same VRChat instance, while also providing an interface to modify the debug options.",
-  "You are using a ": "You are using a ",
-  " build of the Creator Companion, it is intended for testing purposes and can be unstable.": " build of the Creator Companion, it is intended for testing purposes and can be unstable.",
   "Copy Live Settings and Data": "Copy Live Settings and Data",
   "Delete Beta Settings and Data": "Delete Beta Settings and Data",
   "Beta Builds use their own settings, but you can copy them from the main Creator Companion installation using the button below": "Beta Builds use their own settings, but you can copy them from the main Creator Companion installation using the button below",
