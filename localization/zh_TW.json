@@ -313,8 +313,6 @@
   "Learn how to upgrade projects from Unity 2019 to Unity 2022.": "Learn how to upgrade projects from Unity 2019 to Unity 2022.",
   "VRC Quick Launcher": "VRC Quick Launcher",
   "This tool helps you launch multiple profiles in the same VRChat instance, while also providing an interface to modify the debug options.": "This tool helps you launch multiple profiles in the same VRChat instance, while also providing an interface to modify the debug options.",
-  "You are using a ": "You are using a ",
-  " build of the Creator Companion, it is intended for testing purposes and can be unstable.": " build of the Creator Companion, it is intended for testing purposes and can be unstable.",
   "Copy Live Settings and Data": "Copy Live Settings and Data",
   "Delete Beta Settings and Data": "Delete Beta Settings and Data",
   "Beta Builds use their own settings, but you can copy them from the main Creator Companion installation using the button below": "Beta Builds use their own settings, but you can copy them from the main Creator Companion installation using the button below",
@@ -361,5 +359,8 @@
   "Starting project creation...": "Starting project creation...",
   "A folder with the same name already exists": "A folder with the same name already exists",
   "A good starting point for a new VRChat World": "A good starting point for a new VRChat World",
-  "A good starting point for a new VRChat Avatar": "A good starting point for a new VRChat Avatar"
+  "A good starting point for a new VRChat Avatar": "A good starting point for a new VRChat Avatar",
+  "This will {{1:delete}} all your {{3:Beta}} settings and data, starting from scratch": "This will delete all your Beta settings and data, starting from scratch",
+  "You are using a {{1:Beta}} build of the Creator Companion, it is intended for testing purposes and can be unstable.": "You are using a Beta build of the Creator Companion, it is intended for testing purposes and can be unstable.",
+  "This will {{1:overwrite}} your {{3:Beta}} settings with your {{5:Main}} settings and data": "This will overwrite your Beta settings with your Main settings and data"
 }

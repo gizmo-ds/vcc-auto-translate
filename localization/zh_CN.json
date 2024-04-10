@@ -313,8 +313,6 @@
   "Learn how to upgrade projects from Unity 2019 to Unity 2022.": "了解如何将项目从 Unity 2019 升级到 Unity 2022。",
   "VRC Quick Launcher": "VRC 快速启动器",
   "This tool helps you launch multiple profiles in the same VRChat instance, while also providing an interface to modify the debug options.": "该工具可帮助您在同一个 VRChat 实例中启动多个配置文件，同时还提供了一个修改调试选项的界面。",
-  "You are using a ": "你正在使用 ",
-  " build of the Creator Companion, it is intended for testing purposes and can be unstable.": " 版本的创作者助手，该版本是为测试用途构建的并且可能会很不稳定。",
   "Copy Live Settings and Data": "复制正式版的设置和数据",
   "Delete Beta Settings and Data": "删除 Beta 版的设置和数据",
   "Beta Builds use their own settings, but you can copy them from the main Creator Companion installation using the button below": "Beta 版本使用独立的设置文件，但是你可以使用以下按钮复制正式版创作者助手的设置。",
@@ -361,5 +359,8 @@
   "Starting project creation...": "正在开始项目创建...",
   "A folder with the same name already exists": "A folder with the same name already exists",
   "A good starting point for a new VRChat World": "A good starting point for a new VRChat World",
-  "A good starting point for a new VRChat Avatar": "A good starting point for a new VRChat Avatar"
+  "A good starting point for a new VRChat Avatar": "A good starting point for a new VRChat Avatar",
+  "This will {{1:delete}} all your {{3:Beta}} settings and data, starting from scratch": "This will delete all your Beta settings and data, starting from scratch",
+  "You are using a {{1:Beta}} build of the Creator Companion, it is intended for testing purposes and can be unstable.": "你正在使用创作者助手的 {{1:Beta}} 版本，此版本是以测试为用途构建的，可能存在会不稳定。",
+  "This will {{1:overwrite}} your {{3:Beta}} settings with your {{5:Main}} settings and data": "This will overwrite your Beta settings with your Main settings and data"
 }
