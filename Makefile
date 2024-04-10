@@ -13,20 +13,21 @@ build-patch-loader:
 	@rm -rf build/*.css
 
 build-installer: build-patch-loader
-	@cp build/patch-loader.js installer-src/assets/patch-loader.js
-	@cd installer-src && cargo build --release --locked --target x86_64-pc-windows-gnu
-	@cp installer-src/target/x86_64-pc-windows-gnu/release/vcc-auto-translate-installer.exe build/vcc-auto-translate-installer.exe
+	@cp build/patch-loader.js crates/installer/assets/patch-loader.js
+	@cargo build --release --locked --target x86_64-pc-windows-gnu
+	@cp target/x86_64-pc-windows-gnu/release/vcc-auto-translate-installer.exe build/
 
 sha256sum:
 	@rm -f build/*.sha256; for file in build/*; do sha256sum $$file > $$file.sha256; done
 
-compress: build-installer
+compress:
 	@if [ -n "$(shell command -v upx 2> /dev/null)" ]; then for file in build/*.exe; do upx $$file; done; fi
 
 clean:
 	@rm -f cmd/installer/vcc-auto-translate.js
 	@rm -f cmd/installer/localization/*.json
 	@rm -rf build
+	@cargo clean
 
 dev: clean build-patch-loader
 	@rm -f installer-src/assets/patch-loader.js

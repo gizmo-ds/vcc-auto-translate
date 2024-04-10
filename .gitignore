@@ -6,3 +6,4 @@ test-data
 .env.local
 .vscode/*
 !.vscode/extensions.json
+target

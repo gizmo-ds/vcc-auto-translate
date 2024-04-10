@@ -50,12 +50,11 @@ VCC(VRChat Creator Companion) 的翻译脚本, 用于自动翻译 VCC 的界面.
 ```shell
 pnpm install
 pnpm run build:patch-loader
-Copy-Item build/patch-loader.js installer-src/assets/patch-loader.js
-cd installer-src
+Copy-Item build/patch-loader.js crates/installer/assets/patch-loader.js
 cargo build --release --locked
 ```
 
-编译完成后, 你可以在`installer-src/target/release`目录找到编译好的自动安装工具.
+编译完成后, 你可以在`target/release`目录找到编译好的自动安装工具.
 
 ## Related
 
