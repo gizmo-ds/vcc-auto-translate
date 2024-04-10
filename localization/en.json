@@ -361,5 +361,8 @@
   "Starting project creation...": "Starting project creation...",
   "A folder with the same name already exists": "A folder with the same name already exists",
   "A good starting point for a new VRChat World": "A good starting point for a new VRChat World",
-  "A good starting point for a new VRChat Avatar": "A good starting point for a new VRChat Avatar"
+  "A good starting point for a new VRChat Avatar": "A good starting point for a new VRChat Avatar",
+  "This will {{1:delete}} all your {{3:Beta}} settings and data, starting from scratch": "This will delete all your Beta settings and data, starting from scratch",
+  "You are using a {{1:Beta}} build of the Creator Companion, it is intended for testing purposes and can be unstable.": "You are using a Beta build of the Creator Companion, it is intended for testing purposes and can be unstable.",
+  "This will {{1:overwrite}} your {{3:Beta}} settings with your {{5:Main}} settings and data": "This will overwrite your Beta settings with your Main settings and data"
 }
