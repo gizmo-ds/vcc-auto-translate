@@ -30,7 +30,7 @@ clean:
 	@cargo clean
 
 dev: clean build-patch-loader
-	@rm -f installer-src/assets/patch-loader.js
-	@cp build/patch-loader.js installer-src/assets/patch-loader.js
-	@cd installer-src && cargo build --locked --target x86_64-pc-windows-gnu
-	installer-src/target/x86_64-pc-windows-gnu/debug/vcc-auto-translate-installer.exe --no-pause
+	@rm -f crates/installer/assets/patch-loader.js
+	@cp build/patch-loader.js crates/installer/assets/patch-loader.js
+	@cargo build -p installer --locked --target x86_64-pc-windows-gnu
+	target/x86_64-pc-windows-gnu/debug/vcc-auto-translate-installer.exe --no-pause
