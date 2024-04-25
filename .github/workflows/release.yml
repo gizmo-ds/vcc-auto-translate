@@ -36,7 +36,7 @@ jobs:
           target: x86_64-pc-windows-gnu
 
       - name: Build release
-        run: make
+        run: cp .env_example .env && make
 
       - name: Create release
         uses: softprops/action-gh-release@v1
