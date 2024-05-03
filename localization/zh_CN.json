@@ -360,7 +360,7 @@
   "A folder with the same name already exists": "已存在同名文件夹",
   "A good starting point for a new VRChat World": "一个新的 VRChat 世界的良好出发点",
   "A good starting point for a new VRChat Avatar": "一个新的 VRChat 虚拟形象的良好起始点",
-  "This will {{1:delete}} all your {{3:Beta}} settings and data, starting from scratch": "This will delete all your Beta settings and data, starting from scratch",
+  "This will {{1:delete}} all your {{3:Beta}} settings and data, starting from scratch": "这会{{1:删除}}所有 {{3:Beta}} 版的设置和数据，用于完全重置 {{3:Beta}} 版创作者助手",
   "You are using a {{1:Beta}} build of the Creator Companion, it is intended for testing purposes and can be unstable.": "你正在使用创作者助手的 {{1:Beta}} 版本，此版本是以测试为用途构建的，可能存在会不稳定。",
-  "This will {{1:overwrite}} your {{3:Beta}} settings with your {{5:Main}} settings and data": "This will overwrite your Beta settings with your Main settings and data"
+  "This will {{1:overwrite}} your {{3:Beta}} settings with your {{5:Main}} settings and data": "这会用{{5:正式版}}的设置和数据{{1:覆盖}} {{3:Beta}} 版的设置"
 }
