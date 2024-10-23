@@ -69,7 +69,7 @@ cargo build --release --locked
 
 ## Sponsors
 
-[![Sponsors](https://afdian-connect.deno.dev/sponsor.svg)](https://afdian.net/a/gizmo)
+[![Sponsors](https://afdian-connect.deno.dev/sponsor.svg)](https://afdian.com/a/gizmo)
 
 ## Thanks
 
