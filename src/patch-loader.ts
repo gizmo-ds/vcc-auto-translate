@@ -5,7 +5,7 @@ import { injector, function_proxy } from './injector'
 import algolia_patch from './patch/algolia'
 import translate_patch from './patch/translate'
 import console_log_patch from './patch/console_log'
-import { store } from './helpers'
+import { store, DebugMode } from './helpers'
 
 const patchs = [algolia_patch, translate_patch, console_log_patch]
 
@@ -16,10 +16,18 @@ async function main() {
   const patched_filename = index_script_file.replace(/\.js$/, '.patched.js')
   const local_patched_filename = await kv_get('patched-filename', store)
   let patched_code: string | undefined
+  const patch_version = process.env.PATCH_VERSION
+  const local_patch_version = await kv_get('patch-version', store)
 
   globalThis['__vcc_function_proxy__'] = function_proxy
 
-  if (!local_patched_filename || local_patched_filename !== patched_filename) {
+  if (
+    DebugMode ||
+    !local_patched_filename ||
+    local_patched_filename !== patched_filename ||
+    !local_patch_version ||
+    local_patch_version !== patch_version
+  ) {
     for (const p of patchs) {
       for (const key of Object.keys(p)) p[key].before && (await p[key].before())
       p.before && (await p.before())
@@ -40,6 +48,7 @@ async function main() {
     })
     patched_code = await injector(code, inject_functions)
 
+    await kv_set('patch-version', patch_version, store)
     kv_set('patched-filename', patched_filename, store)
     await kv_set('patched-content', patched_code, store)
 
