@@ -3,16 +3,22 @@
 [![Release](https://img.shields.io/github/v/release/gizmo-ds/vcc-auto-translate.svg?include_prereleases&style=flat-square)](https://github.com/gizmo-ds/vcc-auto-translate/releases/latest)
 [![GitHub Downloads](https://img.shields.io/github/downloads/gizmo-ds/vcc-auto-translate/total?style=flat-square)](https://github.com/gizmo-ds/vcc-auto-translate/releases/latest)
 [![License](https://img.shields.io/github/license/gizmo-ds/vcc-auto-translate?style=flat-square)](./LICENSE)
-[![简体中文](<https://img.shields.io/badge/dynamic/json?color=blue&label=%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87&style=flat-square&logo=crowdin&query=%24.progress%5B0%5D.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15293064-658026.json>)](https://zh.crowdin.com/project/vcc-auto-translate)
-[![正體中文](<https://img.shields.io/badge/dynamic/json?color=blue&label=%E6%AD%A3%E9%AB%94%E4%B8%AD%E6%96%87&style=flat-square&logo=crowdin&query=%24.progress%5B1%5D.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15293064-658026.json>)](https://zh.crowdin.com/project/vcc-auto-translate)
+[![简体中文](https://img.shields.io/badge/dynamic/json?color=blue&label=%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87&style=flat-square&logo=crowdin&query=%24.progress%5B0%5D.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15293064-658026.json)](https://zh.crowdin.com/project/vcc-auto-translate)
+[![正體中文](https://img.shields.io/badge/dynamic/json?color=blue&label=%E6%AD%A3%E9%AB%94%E4%B8%AD%E6%96%87&style=flat-square&logo=crowdin&query=%24.progress%5B1%5D.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15293064-658026.json)](https://zh.crowdin.com/project/vcc-auto-translate)
 
 VCC(VRChat Creator Companion) 的翻译脚本, 用于自动翻译 VCC 的界面.
 
-> [!NOTE]  
-> [v1.3.0](https://github.com/gizmo-ds/vcc-auto-translate/releases/tag/v1.3.0-beta) 以后的版本不再对 VCC v2.2.2
-> 以前的版本进行适配, 如有需要使用旧版本, 请下载`v1.3.0`之前的版本.
+## 项目状态说明
 
-## Screenshots
+本项目仍然处于正常维护状态，尽管最近没有新的提交，但这并不影响其可用性。
+
+- **稳定性保证**：本项目使用 AST 技术实现翻译，只要 VCC 的 React 代码结构没有大规模变更，翻译功能就不会失效。
+- **自动适配更新**：VCC 更新后，只需重新执行补丁安装程序，翻译即可自动应用，无需额外修改代码。
+- **翻译进度**：目前 VCC 的大部分文本已完成翻译。由于缺少优秀的翻译人员，未来翻译内容的更新可能不会很频繁，但项目仍然可以正常使用。
+
+如果您遇到任何问题，欢迎提交 Issue，我们会尽力提供支持。
+
+## 效果图
 
 ![Screenshot 1](images/screenshot_1.png)
 
