@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "private": true,
+  "packageManager": "pnpm@10.6.1",
   "main": "index.js",
   "scripts": {
     "build:patch-loader": "esno scripts/build-patch-loader.ts"
@@ -28,5 +29,12 @@
     "esbuild-css-modules-plugin": "^3.1.0",
     "esno": "^4.7.0"
   },
-  "packageManager": "pnpm@9.12.1+sha256.91452fdfa46234ae447d46d5c4fc4e7e0a7058f90495c4b6f77f8beebbb154e3"
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "esbuild"
+    ],
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
 }
