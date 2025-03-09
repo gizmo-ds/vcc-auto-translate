@@ -16,18 +16,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4.1.0
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20.11.1
-
-      - name: Install Corepack
-        shell: bash
-        run: npm i -g --force corepack
-
-      - name: Enable Corepack
-        shell: bash
-        run: corepack enable
+          node-version: lts/*
+          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install
