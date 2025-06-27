@@ -1,6 +1,6 @@
 pm = $(if $(shell command -v bun 2> /dev/null), bun, pnpm)
 
-all: build-installer compress sha256sum
+all: build-installer compress
 
 build-script-loader:
 	make build-patch-loader
