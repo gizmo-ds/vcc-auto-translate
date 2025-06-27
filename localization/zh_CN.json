@@ -82,7 +82,7 @@
   "Remove repository": "移除仓库",
   "Add": "添加",
   "Cancel": "取消",
-  "Request Headers": "请求头",
+  "Request Headers": "请求标头 (Header)",
   "Link to the repository JSON file. E.g. https://vrchat.github.io/myRepo/index.json": "仓库 JSON 文件的 URL。例如 https://vrchat.github.io/myRepo/index.json",
   "Search Projects...": "搜索项目...",
   "Search Packages...": "搜索包...",
@@ -280,8 +280,8 @@
   "[matcher]Change to ([0-9|a-z|\\.]+)": "更改为 $1",
   "This version change is not officially supported by VRChat": "该版本更改操作并不受 VRChat 官方支持",
   "Back To Projects": "返回到项目页面",
-  "Header Name": "请求头 (Header) 名称",
-  "Header Value": "请求头 (Header) 内容",
+  "Header Name": "请求标头 (Header) 名称",
+  "Header Value": "请求标头 (Header) 内容",
   "Community Repositories Disclaimer": "社区仓库免责声明",
   "WARNING: Download at your own risk! Community Packages made available through third-party sites may contain malware. VRChat makes no representation, warranty, or guarantee with respect to Community Packages and disclaims any liability arising out of or related to Community Packages.": "警告：风险自负！通过第三方网站提供的社区软件包可能含有恶意软件。VRChat 对社区软件包不作任何陈述、担保或保证，并拒绝承担由社区软件包引起或与之相关的任何责任。",
   "Included Packages": "包括的包",
@@ -362,5 +362,9 @@
   "A good starting point for a new VRChat Avatar": "一个新的 VRChat 虚拟形象的良好起始点",
   "This will {{1:delete}} all your {{3:Beta}} settings and data, starting from scratch": "这会{{1:删除}}所有 {{3:Beta}} 版的设置和数据，用于完全重置 {{3:Beta}} 版创作者助手",
   "You are using a {{1:Beta}} build of the Creator Companion, it is intended for testing purposes and can be unstable.": "你正在使用创作者助手的 {{1:Beta}} 版本，此版本是以测试为用途构建的，可能存在会不稳定。",
-  "This will {{1:overwrite}} your {{3:Beta}} settings with your {{5:Main}} settings and data": "这会用{{5:正式版}}的设置和数据{{1:覆盖}} {{3:Beta}} 版的设置"
+  "This will {{1:overwrite}} your {{3:Beta}} settings with your {{5:Main}} settings and data": "这会用{{5:正式版}}的设置和数据{{1:覆盖}} {{3:Beta}} 版的设置",
+  "Add New Header": "添加新标头 (Header)",
+  "Remove Header": "移除标头 (Header)",
+  "Remove": "移除",
+  "Advanced Options": "高级选项"
 }
