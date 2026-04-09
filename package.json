@@ -10,8 +10,7 @@
   },
   "keywords": [],
   "author": {
-    "name": "Gizmo",
-    "email": "me@aika.dev"
+    "name": "Gizmo"
   },
   "license": "MIT",
   "dependencies": {
